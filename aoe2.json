@@ -589,5 +589,38 @@
 	}, {
 		"id": 2,
 		"string": "All Visible"
-	}]
+	}],
+	"color": [{
+			"id": 1,
+			"string": "#405BFE"
+		},
+		{
+			"id": 2,
+			"string": "#FF0000"
+		},
+		{
+			"id": 3,
+			"string": "#00FF00"
+		},
+		{
+			"id": 4,
+			"string": "#FFFF00"
+		},
+		{
+			"id": 5,
+			"string": "#00FFFF"
+		},
+		{
+			"id": 6,
+			"string": "#FF57B3"
+		},
+		{
+			"id": 7,
+			"string": "#797979"
+		},
+		{
+			"id": 8,
+			"string": "#FF9600"
+		}
+	]
 }
