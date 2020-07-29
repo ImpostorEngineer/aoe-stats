@@ -2,7 +2,7 @@ var rankdata = document.getElementById("rank");
 var ranks;
 function ranks() {
 	var req = new XMLHttpRequest();
-	req.open('GET', 'https://aoe2.net/api/player/matches?game=aoe2de&steam_id=76561198070386645&count=1');
+	req.open('GET', 'https://cors-anywhere.herokuapp.com/https://aoe2.net/api/player/matches?game=aoe2de&steam_id=76561198070386645&count=1');
 	req.onload = function() {
  		var data = JSON.parse(req.responseText);
  		renderHTML(data);
