@@ -1,1 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@700&family=MedievalSharp&family=Oswald:wght@700&display=swap');
 
+body {
+  font-family: Oswald;
+}
+
+#rank {
+  margin: 0 10px;
+  /* background-color:#000;  */
+  color: #4696ff;
+  padding: 1px;
+  width: auto;
+  height: 100px;
+  text-align: left;
+  font-size: 25px;
+  text-shadow: 2px 1px rgb(0, 0, 0);
+}
+
+#map {
+  margin: 10px 10px 0px 10px;
+  /* background-color:#000;  */
+  color: rgb(70, 150, 255);
+  padding-right: 15px;
+  margin-top: 15px;
+  width: auto;
+  height: 40px;
+  text-align: left;
+  float: left;
+  font-size: 40px;
+  text-shadow: 2px 2px rgb(0, 0, 0);
+  word-wrap: break-word;
+}
+
+.player {
+  float: left;
+  /* border: 1px solid #000; */
+  width: auto;
+  padding-right: 15px;
+  /* max-width: 150px; */
+  /* height: 100px; */
+  word-wrap: break-word;
+}
+
+.name {
+  color: rgb(255, 255, 255);
+}
+
+.rating {
+  color: rgb(255, 251, 0);
+}
+
+.civ {
+  color: rgb(0, 238, 255);
+}
