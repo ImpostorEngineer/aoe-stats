@@ -29,10 +29,10 @@ function renderHTML(data) {
 		for (i = 0; i < maxp; i += 2) {
 			for (k in mapdata.civ) { 
 				if (mapdata.civ[k].id == data[0].players[i].civ) {
-					playerciv = mapdata.civ[k].string;
+					playerciv = mapdata.civ[k].string..slice(0,9);
 				}
 			}
-		htmlstringa += "<div class='player'><span class='name'>" + data[0].players[i].name + "</span><br/><span class='rating'>R: " + data[0].players[i].rating + "</span><br><span class='civ'>" + playerciv + "<br></div>";
+		htmlstringa += "<div class='player'><span class='name'>" + data[0].players[i].name.slice(0,8) + "</span><br/><span class='rating'>R: " + data[0].players[i].rating + "</span><br><span class='civ'>" + playerciv + "<br></div>";
 		}
 		for (i = 1; i < maxp; i += 2) {
 			for (k in mapdata.civ) { 
