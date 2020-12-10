@@ -29,7 +29,7 @@ function renderHTML(data) {
 		for (i = 0; i < maxp; i += 2) {
 			for (k in mapdata.civ) { 
 				if (mapdata.civ[k].id == data[0].players[i].civ) {
-					playerciv = mapdata.civ[k].string..slice(0,9);
+					playerciv = mapdata.civ[k].string.slice(0,9);
 				}
 			}
 		htmlstringa += "<div class='player'><span class='name'>" + data[0].players[i].name.slice(0,8) + "</span><br/><span class='rating'>R: " + data[0].players[i].rating + "</span><br><span class='civ'>" + playerciv + "<br></div>";
@@ -37,10 +37,10 @@ function renderHTML(data) {
 		for (i = 1; i < maxp; i += 2) {
 			for (k in mapdata.civ) { 
 				if (mapdata.civ[k].id == data[0].players[i].civ) {
-					playerciv = mapdata.civ[k].string;
+					playerciv = mapdata.civ[k].string.slice(0,9);
 				}
 			}
-		htmlstringb += "<div class='player'><span class='name'>" + data[0].players[i].name + "</span><br/><span class='rating'>R: " + data[0].players[i].rating + "</span><br><span class='civ'>" + playerciv + "<br></div>";
+		htmlstringb += "<div class='player'><span class='name'>" + data[0].players[i].name.slice(0,8) + "</span><br/><span class='rating'>R: " + data[0].players[i].rating + "</span><br><span class='civ'>" + playerciv + "<br></div>";
 		}
 
 		rankdata.innerHTML = htmlstringa + "<div style='float:left; width:70px; height:120px; text-align:center;margin-top:25pt; color:#f00;'> VS </div>" + htmlstringb;
