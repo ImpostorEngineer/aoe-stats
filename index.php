@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
-	<!-- <meta http-equiv="refresh" content="60"> -->
+ 	<meta http-equiv="refresh" content="60">
 	<title>Ranked Games</title>
 	<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
-	<link rel="stylesheet" type="text/css" href="index.css">
+    <link rel="stylesheet" type="text/css" href="rank.css">
 </head>
 <body onload="ranks()">
 <!-- <marquee behavior="scroll" direction="left" scrollamount="5"> -->
 	<div id="map">
-
 	</div>
 	<div id="rank">
 	</div>
