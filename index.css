@@ -1,54 +1,87 @@
-@import url('https://fonts.googleapis.com/css2?family=Lora:wght@700&family=MedievalSharp&family=Oswald:wght@700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lora:wght@700&family=MedievalSharp&family=Oswald:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;600;900&display=swap");
 
 body {
-  font-family: Oswald;
+  font-family: Roboto Condensed;
+  font-weight: 600;
 }
-
 #rank {
-  margin: 0 10px;
-  /* background-color:#000;  */
+  margin: 10px;
   color: #4696ff;
-  padding: 1px;
   width: auto;
-  height: 100px;
+  max-width: 1800px;
+  height: auto;
   text-align: left;
-  font-size: 25px;
-  text-shadow: 2px 1px rgb(0, 0, 0);
+  font-size: 22px;
+  text-shadow: 2px 2px #000;
+}
+#team1,
+#team2, #team3, #team4, #team5, #team6, #team7, #team8 {
+  float: left;
+  width: auto;
+  max-width: 850px;
+  height: 125px;
+  margin: 0px;
 }
 
 #map {
+  font-family: Oswald;
   margin: 10px 10px 0px 10px;
-  /* background-color:#000;  */
-  color: rgb(70, 150, 255);
-  padding-right: 15px;
-  margin-top: 15px;
+  color: #fcff49;
+  padding: 10px;
+  margin: 15px;
   width: auto;
   height: 40px;
   text-align: left;
   float: left;
   font-size: 40px;
-  text-shadow: 2px 2px rgb(0, 0, 0);
+  text-shadow: 2px 2px #000;
   word-wrap: break-word;
 }
-
-.player {
+.game {
+  font-size: 20px;
+}
+.vs {
+  float: left;
+  width: 50px;
+  margin: 30px 5px 0px 5px;
+  height: 110px;
+  text-align: center;
+  color: #f00;
+  font-size: 30px;
+  padding: 0px;
+}
+.wrap-player {
   float: left;
   /* border: 1px solid #000; */
   width: auto;
-  padding-right: 15px;
-  /* max-width: 150px; */
+  height: 110px;
+  margin-left: 5px;
+  max-width: 200px;
+  min-width: 120px;
   /* height: 100px; */
+}
+.player {
+  height: 110px;
+  min-width: 120px;
+  margin: 0px 0px 0px 0px;
+  padding-left: 10px;
+  margin-bottom: 5px;
   word-wrap: break-word;
+  background-repeat: no-repeat;
+  background-size: 32px, 50px 50px;
+  background-position: right top, 110% 100%;
 }
-
 .name {
-  color: rgb(255, 255, 255);
+  color: #fff;
+  font-size: 25px;
 }
-
 .rating {
-  color: rgb(255, 251, 0);
+  color: #fff;
 }
-
 .civ {
-  color: rgb(0, 238, 255);
+  color: #fff;
+}
+img {
+  box-shadow: 2px 2px 2px gray;
 }
