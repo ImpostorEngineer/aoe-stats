@@ -1,7 +1,6 @@
-function ranks() {
+function ranks(...args) {
 	var req = new XMLHttpRequest();
-	var player = "76561198070386645";
-	var url = 'https://aoe2.net/api/player/matches?game=aoe2de&count=1&steam_id=' + player;
+	var url = 'https://aoe2.net/api/player/matches?game=aoe2de&count=1&' + args.join('=');
 	req.open('GET', url, true);
 	req.onreadystatechange = function () {
 		if (this.readyState == 4 && this.status == 200) {
