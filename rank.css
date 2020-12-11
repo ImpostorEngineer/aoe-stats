@@ -1,9 +1,7 @@
-@import url("https://fonts.googleapis.com/css2?family=Lora:wght@700&family=MedievalSharp&family=Oswald:wght@700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;600;900&display=swap");
-
 body {
   font-family: Roboto Condensed;
-  font-weight: 600;
+  font-weight: 700;
+  background-color: #000;
 }
 #rank {
   margin: 10px;
