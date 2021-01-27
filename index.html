@@ -1,18 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-US">
   <head>
-    <script>
-      const urlParams = new URLSearchParams(window.location.search);
-      const proid = urlParams.get("profile_id");
-      const steamid = urlParams.get("steam_id");
-      var mod, id;
-      result =
-        proid != null
-          ? ((mod = "profile_id"), (id = proid))
-          : steamid != null
-          ? ((mod = "steam_id"), (id = steamid))
-          : ((mod = "steam_id"), (id = "76561198070386645"));
-    </script>
     <meta http-equiv="refresh" content="60">
     <title>Ranked Games</title>
     <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
@@ -23,7 +11,7 @@
     />
     <link rel="stylesheet" type="text/css" href="rank.css" />
   </head>
-  <body onload="ranks(mod, id)">
+  <body>
     <marquee behavior="scroll" direction="left" scrollamount="8">
     <div id="map"></div>
     <div id="rank"></div>
