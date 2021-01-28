@@ -75,9 +75,12 @@ function playerMap(mapData, currentMap) {
   for (i in mapData.map_type) {
     if (mapData.map_type[i].id == currentMap) {
       mapname = mapData.map_type[i].string;
-    } else {
-      mapname = 'CustomMap';
     }
+  }
+  if (typeof mapname != 'undefined') {
+    document.getElementById('map').innerHTML = mapname;
+  } else {
+    mapname = 'CustomMap';
     document.getElementById('map').innerHTML = mapname;
   }
 }
@@ -109,7 +112,7 @@ function playerData(mapData, arr) {
     const bgimgend = '/flat/32.png';
     player['flag'] = bgimgurl + arr.country + bgimgend;
   }
-
+  console.log(player);
   return player;
 }
 
@@ -128,10 +131,14 @@ function playerRanks(pData) {
     teams = [...new Set(teams)];
     createDivs(teams);
     for (p in players) {
-      const { name, rating, team, civ, color, flag } = playerData(
-        mapdata,
-        players[p]
-      );
+      const {
+        name,
+        rating,
+        team,
+        civ: civ = 'New Civ',
+        color,
+        flag,
+      } = playerData(mapdata, players[p]);
       renderHTML(name, rating, team, civ, color, flag);
     }
   });
