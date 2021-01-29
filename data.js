@@ -168,7 +168,7 @@ function renderHTML(name, rating, team, civ, color, flag) {
     ".png); '><span class='name' style='color:" +
     color +
     ";'>" +
-    name.slice(0, 8) +
+    name.slice(0, 6) +
     "</span><br/><span class='rating'>R: " +
     rating +
     "</span><br><span class='civ'>" +
