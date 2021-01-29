@@ -168,11 +168,11 @@ function renderHTML(name, rating, team, civ, color, flag) {
     ".png); '><span class='name' style='color:" +
     color +
     ";'>" +
-    name.slice(0, 9) +
+    name.slice(0, 8) +
     "</span><br/><span class='rating'>R: " +
     rating +
     "</span><br><span class='civ'>" +
-    civ.slice(0, 9) +
+    civ.slice(0, 8) +
     '</span></div></div></div>';
   const divn = 'team' + team;
   document.getElementById(divn).innerHTML += ht;
