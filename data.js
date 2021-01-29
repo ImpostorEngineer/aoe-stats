@@ -112,7 +112,6 @@ function playerData(mapData, arr) {
     const bgimgend = '/flat/32.png';
     player['flag'] = bgimgurl + arr.country + bgimgend;
   }
-  console.log(player);
   return player;
 }
 
