@@ -134,7 +134,7 @@ function playerRanks(pData) {
         name,
         rating,
         team,
-        civ: civ = 'New Civ',
+        civ: civ = 'Burgundians',
         color,
         flag,
       } = playerData(mapdata, players[p]);
