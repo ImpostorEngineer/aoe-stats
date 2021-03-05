@@ -42,6 +42,7 @@ router.get('/:id/:count', (req, res, next) => {
     }
 
     playedCivs = [...new Set(playedCivs)];
+    playedCivs.sort((a, b) => a - b);
 
     for (let c = 0; c < playedCivs.length; c++) {
       finalCivs.push(civNames.civ[playedCivs[c]]);
