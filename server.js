@@ -3,6 +3,7 @@ const api = require('./app/app');
 const app = express();
 
 app.use(express.static('public'));
+
 app.use('/api', api);
 app.use(express.json());
 
