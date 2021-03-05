@@ -2,7 +2,17 @@ const express = require('express');
 const router = express.Router();
 const axios = require('axios');
 
-router.get('/:steam_id/:count', (req, res, next) => {
+router.get('/:id/:count', (req, res, next) => {
+  const count = req.params.count;
+  const id = req.params.id;
+  if (id.length > 7) {
+    idType = 'steam_id';
+    gamerID = 'steam_id=' + id;
+  } else {
+    idType = 'profile_id';
+    gamerID = 'profile_id=' + id;
+  }
+
   async function getGames() {
     let civData = await axios.get(
       'https://aoe2.net/api/strings?game=aoe2de&language=en'
@@ -11,9 +21,9 @@ router.get('/:steam_id/:count', (req, res, next) => {
 
     const url =
       'https://aoe2.net/api/player/matches?game=aoe2de&' +
-      req.params.steam_id +
-      '&' +
-      req.params.count;
+      gamerID +
+      '&count=' +
+      count;
 
     let response = await axios.get(url);
 
@@ -25,7 +35,7 @@ router.get('/:steam_id/:count', (req, res, next) => {
 
     for (let i = 0; i < data.length; i++) {
       const playerList = data[i].players.filter(
-        (player) => player.steam_id == '76561198070386645'
+        (player) => player[idType] == id
       );
       playedGames.push(playerList);
       playedCivs.push(playerList[0].civ);
