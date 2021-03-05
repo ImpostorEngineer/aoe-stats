@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const axios = require('axios');
 
-router.get('/:steam_id:count', (req, res, next) => {
+router.get('/:steam_id/:count', (req, res, next) => {
   async function getGames() {
     let civData = await axios.get(
       'https://aoe2.net/api/strings?game=aoe2de&language=en'
