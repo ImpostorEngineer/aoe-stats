@@ -79,8 +79,8 @@ function renderHTML(data) {
   // }
 }
 
-function rankOneVOne(steam_id) {
-  const url = 'https://aoe2.net/api/leaderboard?game=aoe2de&leaderboard_id=3&steam_id=' + steam_id;
+function rankOneVOne(profile_id) {
+  const url = 'https://aoe2.net/api/leaderboard?game=aoe2de&leaderboard_id=3&profile_id=' + profile_id;
   return fetch(url, { mode: 'cors' })
     .then((response) => response.json())
     .then((pOnedata) => {
@@ -127,7 +127,7 @@ async function playerData(mapData, arr) {
   player['profile_id'] = arr.profile_id;
   player['team'] = arr.team;
 
-  let ratingOnevOne = await rankOneVOne(arr.steam_id).then((data) => {
+  let ratingOnevOne = await rankOneVOne(arr.profile_id).then((data) => {
     let oneVOnerating = 0;
     if (data.leaderboard[0] != null) {
       oneVOnerating = data.leaderboard[0].rating;
