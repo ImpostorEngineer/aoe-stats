@@ -1,0 +1,92 @@
+body {
+  font-family: Roboto Condensed;
+  font-weight: 700;
+  background-color: #000;
+  margin: 0;
+  padding: 0;
+}
+#wrapper {
+  width: auto;
+}
+#rank {
+  display: flex;
+  margin: 5px;
+  color: #4696ff;
+  width: auto;
+  max-width: 1800px;
+  height: 110px;
+  text-align: left;
+  font-size: 22px;
+  text-shadow: 2px 2px #000;
+}
+#team1,
+#team2,
+#team3,
+#team4,
+#team5,
+#team6,
+#team7,
+#team8 {
+  display: flex;
+  width: auto;
+  max-width: 850px;
+  height: 125px;
+  margin: 0px;
+}
+
+#map {
+  font-family: Oswald;
+  margin: 10px 10px 0px 10px;
+  color: #fcff49;
+  margin: 0;
+  text-align: left;
+  float: left;
+  font-size: 40px;
+  text-shadow: 2px 2px #000;
+  word-wrap: break-word;
+  text-align: start;
+}
+.game {
+  font-size: 20px;
+}
+.vs {
+  width: 50px;
+  margin: 30px 5px 0px 5px;
+  height: 110px;
+  text-align: center;
+  color: #f00;
+  font-size: 30px;
+  padding: 0px;
+}
+.wrap-player {
+  /* border: 1px solid #000; */
+  height: 110px;
+  margin-left: 5px;
+  max-width: 200px;
+  min-width: 120px;
+  /* height: 100px; */
+}
+.player {
+  height: 110px;
+  min-width: 120px;
+  margin: 0px 0px 0px 0px;
+  padding-left: 10px;
+  margin-bottom: 5px;
+  word-wrap: break-word;
+  background-repeat: no-repeat;
+  background-size: 32px, 50px 50px;
+  background-position: right top, 110% 100%;
+}
+.name {
+  color: #fff;
+  font-size: 25px;
+}
+.rating {
+  color: #fff;
+}
+.civ {
+  color: #fff;
+}
+img {
+  box-shadow: 2px 2px 2px gray;
+}

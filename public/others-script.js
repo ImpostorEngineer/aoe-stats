@@ -54,6 +54,41 @@ function ranks(...args) {
     .catch((err) => console.log(err));
 }
 
+function renderHTML(data) {
+  // console.log(data);
+  // for (let i = 0; i < data.length; i++) {
+  // console.log(data[i]);
+  const ht =
+    "<div class='wrap-player'><div class='player' style='background-image:url(" +
+    data.flag +
+    '), url(./civ_crests/' +
+    data.civ +
+    ".png); '><span class='name' style='color:" +
+    data.color +
+    ";'>" +
+    data.name.slice(0, 8) +
+    "</span><br/><span class='rating'>1v1: " +
+    data.ratingOnevOne +
+    "</span><br><span class='rating'>TR: " +
+    data.rating +
+    "</span><br><span class='civ'>" +
+    data.civ.slice(0, 8) +
+    '</span></div></div></div>';
+  const divn = 'team' + data.team;
+  document.getElementById(divn).innerHTML += ht;
+  // }
+}
+
+function rankOneVOne(steam_id) {
+  const url = 'https://aoe2.net/api/leaderboard?game=aoe2de&leaderboard_id=3&steam_id=' + steam_id;
+  return fetch(url, { mode: 'cors' })
+    .then((response) => response.json())
+    .then((pOnedata) => {
+      return pOnedata;
+    })
+    .catch((err) => console.log(err));
+}
+
 function map() {
   const map_url = 'https://aoe2.net/api/strings?game=aoe2de&language=en';
   return fetch(map_url, { mode: 'cors' })
@@ -84,13 +119,23 @@ function playerMap(mapData, currentMap) {
   }
 }
 
-function playerData(mapData, arr) {
+async function playerData(mapData, arr) {
   const player = {};
   player['name'] = arr.name;
   player['rating'] = arr.rating;
   player['steam_id'] = arr.steam_id;
   player['profile_id'] = arr.profile_id;
   player['team'] = arr.team;
+
+  let ratingOnevOne = await rankOneVOne(arr.steam_id).then((data) => {
+    let oneVOnerating = 0;
+    if (data.leaderboard[0] != null) {
+      oneVOnerating = data.leaderboard[0].rating;
+    }
+    return oneVOnerating;
+  });
+
+  player['ratingOnevOne'] = ratingOnevOne;
 
   for (k in mapData.civ) {
     if (arr.civ == mapData.civ[k].id) {
@@ -114,27 +159,6 @@ function playerData(mapData, arr) {
   return player;
 }
 
-function playerRanks(pData) {
-  const players = pData.players;
-  const currentMap = pData.map_type;
-  map().then((mapdata) => {
-    playerMap(mapdata, currentMap);
-    const maxp = pData.num_players;
-    let t = 0;
-    let teams = [];
-    while (t < maxp) {
-      teams.push(players[t].team);
-      t++;
-    }
-    teams = [...new Set(teams)];
-    createDivs(teams);
-    for (p in players) {
-      const { name, rating, team, civ: civ = 'Burgundians', color, flag } = playerData(mapdata, players[p]);
-      renderHTML(name, rating, team, civ, color, flag);
-    }
-  });
-}
-
 function createDivs(teams) {
   for (t in teams) {
     const divname = 'team' + teams[t];
@@ -151,23 +175,30 @@ function createDivs(teams) {
   }
 }
 
-function renderHTML(name, rating, team, civ, color, flag) {
-  const ht =
-    "<div class='wrap-player'><div class='player' style='background-image:url(" +
-    flag +
-    '), url(./civ_crests/' +
-    civ +
-    ".png); '><span class='name' style='color:" +
-    color +
-    ";'>" +
-    name.slice(0, 8) +
-    "</span><br/><span class='rating'>R: " +
-    rating +
-    "</span><br><span class='civ'>" +
-    civ.slice(0, 8) +
-    '</span></div></div></div>';
-  const divn = 'team' + team;
-  document.getElementById(divn).innerHTML += ht;
+async function playerRanks(pData) {
+  const players = await pData.players;
+  const currentMap = pData.map_type;
+  map().then((mapdata) => {
+    playerMap(mapdata, currentMap);
+    const maxp = pData.num_players;
+    let t = 0;
+    let teams = [];
+    while (t < maxp) {
+      teams.push(players[t].team);
+      t++;
+    }
+    teams = [...new Set(teams)];
+    createDivs(teams);
+    let playerJSON = [];
+    for (p in players) {
+      // const { name, rating, team, civ, color, flag, oneVoneRating }
+      playerData(mapdata, players[p]).then((data) => {
+        // console.log(data);
+        renderHTML(data);
+        // playerJSON.push(data);
+      });
+    }
+  });
 }
 
 renderData();
