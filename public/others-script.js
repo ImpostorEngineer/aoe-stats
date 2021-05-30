@@ -69,7 +69,7 @@ function renderHTML(data) {
     data.name.slice(0, 8) +
     "</span><br/><span class='rating'>1v1: " +
     data.ratingOnevOne +
-    "</span><br><span class='rating'>TR: " +
+    "</span><br><span class='rating'>Team: " +
     data.rating +
     "</span><br><span class='civ'>" +
     data.civ.slice(0, 8) +
@@ -80,7 +80,7 @@ function renderHTML(data) {
 }
 
 function rankOneVOne(profile_id) {
-  const url = 'https://aoe2.net/api/leaderboard?game=aoe2de&leaderboard_id=3&profile_id=' + profile_id;
+  const url = 'https://aoe2.net/api/player/ratinghistory?game=aoe2de&leaderboard_id=3&count=1&profile_id=' + profile_id;
   return fetch(url, { mode: 'cors' })
     .then((response) => response.json())
     .then((pOnedata) => {
@@ -129,8 +129,8 @@ async function playerData(mapData, arr) {
 
   let ratingOnevOne = await rankOneVOne(arr.profile_id).then((data) => {
     let oneVOnerating = 0;
-    if (data.leaderboard[0] != null) {
-      oneVOnerating = data.leaderboard[0].rating;
+    if (data[0] != null) {
+      oneVOnerating = data[0].rating;
     }
     return oneVOnerating;
   });
