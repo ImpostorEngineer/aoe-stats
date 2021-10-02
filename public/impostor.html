@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700;900&family=Oswald:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>AOE2 Rating</title>
+    <style>
+      body {
+        background-color: #cccccc;
+        color: #ffffff;
+      }
+	  .wrapper {
+		  display: flex;
+	  }
+      .map {
+        font-family: Oswald, sans-serif;
+        font-size: 2em;
+        font-weight: 700;
+        color: #fcff49;
+		margin: 20px 5px;
+		text-shadow: 1px 1px #000;
+      }
+      .team1,
+      .team2 {
+        width: 350px;
+      }
+	  .team1 .player {
+		background-repeat: no-repeat;
+		background-size: 32px, 40px;
+  		background-position: 0px 0px, 30px 0px;
+	  }
+
+	.team2 .player {
+		text-align: right;
+		background-repeat: no-repeat;
+		background-size: 32px, 40px;
+  		background-position: right top, 280px 0px;
+	  }
+
+	  .vs {
+		font-family: Oswald, sans-serif;
+		font-size: 2em;
+		font-weight: 700;
+		color: #F00;
+	  }
+      .player {
+		display: flex;
+		flex-wrap: nowrap;
+		align-content: space-between;
+		height: 45px;
+		width: 350px;
+		font-size: 1.25em;
+		font-weight: 700;
+		font-family: 'Roboto Condensed', sans-serif;
+		text-shadow: 1px 1px #000;
+		border-bottom: 1px solid #f00;
+      }
+	  .player > div {
+		  margin-left: 3px;
+		  height: 45px;
+	  }
+      .team1 .name {
+		padding-left: 62px;
+	  }
+
+	  .team2 .player {
+		justify-content: flex-end;
+		margin-right: 62px;
+	}
+
+	  .wins {
+		  color: rgb(0, 104, 40);
+		  text-shadow: 1px 1px #000;
+	  } 
+	  .losses {
+	  color: #f00;
+	text-shadow: 1px 1px #000;
+	  }
+
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="wrapper">
+        <div class="team1">
+
+		<div class="player" style='background-image: url(https://www.countryflags.io/US/flat/32.png), url(./civ_crests/Ethiopians.png)'>
+            <div class="name">Can</div>
+            <div class="rating">(800 - 1500)</div>
+            <div class="games"><span class="wins">0</span> - <span class="losses">2</span></div>
+          </div>
+
+		  <div class="player" style='background-image: url(https://www.countryflags.io/US/flat/32.png), url(./civ_crests/Ethiopians.png)'>
+            <div class="name">Can</div>
+            <div class="rating">(800 - 1500)</div>
+            <div class="games"><span class="wins">0</span> - <span class="losses">2</span></div>
+          </div>
+          <div class="player" style='background-image: url(https://www.countryflags.io/US/flat/32.png), url(./civ_crests/Ethiopians.png)'>
+            <div class="name">Can</div>
+            <div class="rating">(800 - 1500)</div>
+            <div class="games"><span class="wins">0</span> - <span class="losses">2</span></div>
+          </div>
+          <div class="player" style='background-image: url(https://www.countryflags.io/US/flat/32.png), url(./civ_crests/Ethiopians.png)'>
+            <div class="name">Can</div>
+            <div class="rating">(800 - 1500)</div>
+            <div class="games"><span class="wins">0</span> - <span class="losses">2</span></div>
+          </div>
+
+		</div>
+        <div class="map">Arabia</div>
+        <div class="team2">
+	
+			<div class="player" style='background-image: url(https://www.countryflags.io/US/flat/32.png), url(./civ_crests/Ethiopians.png)'>
+					<div class="games"><span class="losses">2</span> - <span class="wins">0</span></div>
+					<div class="rating">(1500 - 800)</div>
+					<div class="name">Can</div>
+				
+			</div>
+			<div class="player" style='background-image: url(https://www.countryflags.io/US/flat/32.png), url(./civ_crests/Ethiopians.png)'>
+				<div class="games"><span class="losses">2</span> - <span class="wins">0</span></div>
+				<div class="rating">(1500 - 800)</div>
+				<div class="name">Can</div>
+			</div><div class="player" style='background-image: url(https://www.countryflags.io/US/flat/32.png), url(./civ_crests/Ethiopians.png)'>
+				<div class="games"><span class="losses">2</span> - <span class="wins">0</span></div>
+				<div class="rating">(1500 - 800)</div>
+				<div class="name">Can</div>
+			</div><div class="player" style='background-image: url(https://www.countryflags.io/US/flat/32.png), url(./civ_crests/Ethiopians.png)'>
+				<div class="games"><span class="losses">2</span> - <span class="wins">0</span></div>
+				<div class="rating">(1500 - 800)</div>
+				<div class="name">Can</div>
+			</div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
