@@ -56,18 +56,34 @@ router.get('/:id/:count', (req, res, next) => {
 });
 
 router.get('/vs/:id/:opponent', (req, res, next) => {
-  const opponent = req.params.opponent;
-  const id = req.params.id;
-  if (id.length > 7) {
-    idType = 'steam_id';
-    gamerID = 'steam_id=' + id;
-  } else {
-    idType = 'profile_id';
-    gamerID = 'profile_id=' + id;
+  const opponentID = req.params.opponent;
+  const playerID = req.params.id;
+
+  function idTypeNumber(number) {
+    if (number.length > 7) {
+      idType = 'steam_id';
+      gamerID = 'steam_id=' + number;
+    } else {
+      idType = 'profile_id';
+      gamerID = 'profile_id=' + number;
+    }
+    return { idType, gamerID };
+  }
+  const playerGamerID = idTypeNumber(playerID);
+  const opponentGamerID = idTypeNumber(opponentID);
+
+  async function getPlayerNames(ID) {
+    const profileURL = 'https://aoe2.net/api/player/lastmatch?game=aoe2de&' + ID.gamerID;
+    let response = await axios.get(profileURL);
+    let data = response.data;
+    return data.name;
   }
 
   async function getAllGames() {
-    const url = 'https://aoe2.net/api/player/matches?game=aoe2de&' + gamerID + '&count=1000';
+    const url = 'https://aoe2.net/api/player/matches?game=aoe2de&' + playerGamerID.gamerID + '&count=1000';
+
+    const playerName = await getPlayerNames(playerGamerID);
+    const opponentName = await getPlayerNames(opponentGamerID);
 
     let response = await axios.get(url);
     let data = response.data;
@@ -77,7 +93,7 @@ router.get('/vs/:id/:opponent', (req, res, next) => {
     let count = 0;
 
     for (let i = 0; i < data.length; i++) {
-      const playerList = data[i].players.filter((player) => player[idType] == opponent);
+      const playerList = data[i].players.filter((player) => player[opponentGamerID.idType] == opponentID);
       if (playerList != '') {
         playedGames.push(playerList);
       }
@@ -89,11 +105,13 @@ router.get('/vs/:id/:opponent', (req, res, next) => {
       }
     }
 
-    winrate.lost = count;
+    winrate.playerName = playerName;
+    winrate.opponentName = opponentName;
+    winrate.playerLost = count;
     winrate.played = playedGames.length;
     let opponentWinrate = Math.floor((count / playedGames.length) * 10000) / 100;
     winrate.loserate = opponentWinrate + '%';
-    winrate.winrate = 100 - opponentWinrate + '%';
+    winrate.winrate = Math.floor((100 - opponentWinrate) * 100) / 100 + '%';
 
     return winrate;
   }
