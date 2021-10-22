@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/ImpostorEngineer/AOE-Rank#readme",
   "dependencies": {
-    "axios": ">=0.21.1",
+    "axios": "^0.23.0",
     "express": ">=4.17.1"
   }
 }
