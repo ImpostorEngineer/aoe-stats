@@ -121,6 +121,7 @@ router.get('/current/:id/:count', (req, res, next) => {
     for (let p = 0; p < currentPlayers.last_match.players.length; p++) {
       if (currentPlayers.last_match.players[p].profile_id != id) {
         opponent.id = currentPlayers.last_match.players[p].profile_id;
+        opponent.name = currentPlayers.last_match.players[p].name;
       }
     }
 
@@ -130,7 +131,6 @@ router.get('/current/:id/:count', (req, res, next) => {
     let data = response.data;
 
     let playedGames = [];
-    let playedCivs = [];
     let winrate = {};
     let count = 0;
     for (let i = 0; i < data.length; i++) {
@@ -145,6 +145,8 @@ router.get('/current/:id/:count', (req, res, next) => {
         count += 1;
       }
     }
+    winrate.playerName = currentPlayers.name;
+    winrate.opponentName = opponent.name;
     winrate.lost = count;
     winrate.played = playedGames.length;
     let opponentWinrate = Math.floor((count / playedGames.length) * 10000) / 100;
