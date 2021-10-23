@@ -94,7 +94,7 @@ router.get('/vs/:id/:opponent', (req, res, next) => {
 
     for (let i = 0; i < data.length; i++) {
       const playerList = data[i].players.filter((player) => player[opponentGamerID.idType] == opponentID);
-      if (playerList != '') {
+      if (playerList != '' && data[i].game_type == 0) {
         playedGames.push(playerList);
       }
     }
@@ -153,7 +153,7 @@ router.get('/current/:id/:count', (req, res, next) => {
     let count = 0;
     for (let i = 0; i < data.length; i++) {
       const playerList = data[i].players.filter((player) => player[idType] == opponent.id);
-      if (playerList != '') {
+      if (playerList != '' && data[i].game_type == 0) {
         playedGames.push(playerList);
       }
     }
