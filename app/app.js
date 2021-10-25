@@ -76,14 +76,21 @@ router.get('/vs/:id/:opponent', (req, res, next) => {
     const profileURL = 'https://aoe2.net/api/player/lastmatch?game=aoe2de&' + ID.gamerID;
     let response = await axios.get(profileURL);
     let data = response.data;
-    return data.name;
+    let playerName = data.name;
+    let playerRating = 0;
+    for (let p = 0; p < data.last_match.players.length; p++) {
+      if (data.last_match.players[p][ID.idType] == playerID) {
+        playerRating = data.last_match.players[p].rating;
+      }
+    }
+    return { playerName, playerRating };
   }
 
   async function getAllGames() {
     const url = 'https://aoe2.net/api/player/matches?game=aoe2de&' + playerGamerID.gamerID + '&count=1000';
 
-    const playerName = await getPlayerNames(playerGamerID);
-    const opponentName = await getPlayerNames(opponentGamerID);
+    const playerNameRank = await getPlayerNames(playerGamerID);
+    const opponentNameRank = await getPlayerNames(opponentGamerID);
 
     let response = await axios.get(url);
     let data = response.data;
@@ -105,8 +112,10 @@ router.get('/vs/:id/:opponent', (req, res, next) => {
       }
     }
 
-    winrate.playerName = playerName;
-    winrate.opponentName = opponentName;
+    winrate.playerName = playerNameRank.playerName;
+    winrate.playerRating = playerNameRank.playerRating;
+    winrate.opponentName = opponentNameRank.playerName;
+    winrate.opponentRating = opponentNameRank.playerRating;
     winrate.playerLost = count;
     winrate.played = playedGames.length;
     let opponentWinrate = Math.floor((count / playedGames.length) * 10000) / 100;

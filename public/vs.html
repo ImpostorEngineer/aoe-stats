@@ -16,23 +16,34 @@
     <div class="container-sm py-5">
       <div class="text-center" style="width: 900px">
         <h1>Enter Player ID:</h1>
-        <div class="row">
-          <div class="col"><h2 id="p1">[aM] Hera</h2><div id="p1content"></div></div>
-          <div class="col"><h2>VS</h2></div>
-          <div class="col"><h2 id="p2">GL.TheViper</h2><div id="p2content"></div></div>
-        </div>
-        <div class="row">
-          <div class="col py-3"><input type="text" class="form-control-lg" /></div>
-          <div class="col py-3">
-            <p class="fs-2 fw-bold"><span id="p1rate">71.43%</span>&nbsp;-&nbsp;<span id="p2rate">28.57%</span></p>
+        <form action="" method="get">
+          <div class="row">
+            <div class="col py-3"><input type="text" class="form-control text-center" id="p1id" /></div>
+            <div class="col py-3" role="status">
+              <div class="spinner-border text-danger" id="loading" role="status">
+                <span class="sr-only"></span>
+              </div>
+            </div>
+            <div class="col py-3"><input type="text" class="form-control text-center" id="p2id" /></div>
           </div>
-          <div class="col py-3"><input type="text" class="form-control-lg" /></div>
-        </div>
-        <div class="row">
-          <div class="col py-3 text-center">
-            <button class="btn btn-danger" type="button" value="submit">Submit</button>
+          <div class="row">
+            <div class="col"><h2 id="p1name"></h2></div>
+            <div class="col"><h2>VS</h2></div>
+            <div class="col"><h2 id="p2name"></h2></div>
           </div>
-        </div>
+          <div class="row">
+            <div class="col fw-bolder">Won&nbsp;<span id="p1content"></span>&nbsp;Games</div>
+            <div class="col">
+              <p class="fs-2 fw-bold"><span id="p1rate"></span>&nbsp;-&nbsp;<span id="p2rate"> </span></p>
+            </div>
+            <div class="col fw-bolder">Won&nbsp;<span id="p2content"></span>&nbsp;Games</div>
+          </div>
+          <div class="row">
+            <div class="col py-3 text-center">
+              <button class="btn btn-danger" type="submit" value="submit">Submit</button>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
     <script
@@ -40,5 +51,6 @@
       integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
       crossorigin="anonymous"
     ></script>
+    <script src="./js/vs.js"></script>
   </body>
 </html>
