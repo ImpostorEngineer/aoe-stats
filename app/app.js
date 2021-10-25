@@ -131,15 +131,24 @@ router.get('/current/:id/:count', (req, res, next) => {
   const playerURL = 'https://aoe2.net/api/player/lastmatch?game=aoe2de&' + gamerID;
 
   async function getCurrentGame() {
+    let playedGames = [];
+    let winrate = {};
+    let count = 0;
+
     let currentGame = await axios.get(playerURL);
 
     const currentPlayers = currentGame.data;
+
     let opponent = {};
 
     for (let p = 0; p < currentPlayers.last_match.players.length; p++) {
-      if (currentPlayers.last_match.players[p].profile_id != id) {
-        opponent.id = currentPlayers.last_match.players[p].profile_id;
+      if (currentPlayers.last_match.players[p][idType] != id) {
+        opponent.id = currentPlayers.last_match.players[p][idType];
         opponent.name = currentPlayers.last_match.players[p].name;
+        opponent.rating = currentPlayers.last_match.players[p].rating;
+      }
+      if (currentPlayers.last_match.players[p][idType] == id) {
+        winrate.playerRating = currentPlayers.last_match.players[p].rating;
       }
     }
 
@@ -148,9 +157,6 @@ router.get('/current/:id/:count', (req, res, next) => {
     let response = await axios.get(gameHistoryURL);
     let data = response.data;
 
-    let playedGames = [];
-    let winrate = {};
-    let count = 0;
     for (let i = 0; i < data.length; i++) {
       const playerList = data[i].players.filter((player) => player[idType] == opponent.id);
       if (playerList != '' && data[i].game_type == 0) {
@@ -165,6 +171,7 @@ router.get('/current/:id/:count', (req, res, next) => {
     }
     winrate.playerName = currentPlayers.name;
     winrate.opponentName = opponent.name;
+    winrate.opponentRating = opponent.rating;
     winrate.lost = count;
     winrate.played = playedGames.length;
     let opponentWinrate = Math.floor((count / playedGames.length) * 10000) / 100;
