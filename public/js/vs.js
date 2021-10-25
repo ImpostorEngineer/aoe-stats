@@ -22,7 +22,7 @@ async function formSubmitted(event) {
 }
 
 async function getPlayers(p1id, p2id) {
-  const dataURL = 'http://localhost:5000/api/vs/' + p1id + '/' + p2id;
+  const dataURL = 'http://aoestats.herokuapp.com/api/vs/' + p1id + '/' + p2id;
   const playerData = await fetch(dataURL).then((response) => response.json());
   return playerData;
 }
