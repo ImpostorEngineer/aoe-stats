@@ -6,7 +6,7 @@ form.addEventListener('submit', formSubmitted);
 window.onload = async function onPageLoad() {
   const p1id = '199325';
   const p2id = '196240';
-  let data = await getAllGames(p1id, p2id);
+  let data = await getPlayers(p1id, p2id);
   calculateWinRate(data, p1id, p2id);
 };
 
@@ -15,34 +15,34 @@ async function formSubmitted(event) {
   const p1id = p1IDinput.value;
   const p2id = p2IDinput.value;
   document.getElementById('loading').style.display = 'inline-block';
-  let data = await getAllGames(p1id, p2id);
+  let data = await getPlayers(p1id, p2id);
   calculateWinRate(data, p1id, p2id);
 }
 
-async function getAllGames(p1id, p2id) {
-  let idType = 'profile_id';
-  if (p1id.length > 7) {
-    idType = 'steam_id';
-  }
-  const url = 'https://aoe2.net/api/player/matches?game=aoe2de&' + idType + '=' + p1id + '&count=1000';
+// async function getAllGames(p1id, p2id) {
+//   let idType = 'profile_id';
+//   if (p1id.length > 7) {
+//     idType = 'steam_id';
+//   }
+//   const url = 'https://aoe2.net/api/player/matches?game=aoe2de&' + idType + '=' + p1id + '&count=1000';
 
-  let data = await fetch(url, { mode: 'cors' }).then((response) => response.json());
+//   let data = await fetch(url, { mode: 'cors' }).then((response) => response.json());
 
-  const playedGamesList = data.filter((g) => {
-    for (let p = 0; p < g.players.length; p++) {
-      if (g.players[p][idType] == p2id && g.players.length == 2) {
-        return true;
-      }
-    }
-  });
-  return playedGamesList;
-}
-
-// async function getPlayers(p1id, p2id) {
-//   const dataURL = './api/vs/' + p1id + '/' + p2id;
-//   const playerData = await fetch(dataURL, { mode: 'same-origin' }).then((response) => response.json());
-//   return playerData;
+//   const playedGamesList = data.filter((g) => {
+//     for (let p = 0; p < g.players.length; p++) {
+//       if (g.players[p][idType] == p2id && g.players.length == 2) {
+//         return true;
+//       }
+//     }
+//   });
+//   return playedGamesList;
 // }
+
+async function getPlayers(p1id, p2id) {
+  const dataURL = './api/vs/' + p1id + '/' + p2id;
+  const playerData = await fetch(dataURL, { mode: 'same-origin' }).then((response) => response.json());
+  return playerData;
+}
 
 async function getPlayerNames(ID) {
   let idType = 'profile_id';
