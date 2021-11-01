@@ -94,35 +94,56 @@ router.get('/vs/:id/:opponent', (req, res, next) => {
 
     let response = await axios.get(url);
     let data = response.data;
+    // const data = require('./history.json');
 
-    let playedGames = [];
+    let playedGames = {};
     let winrate = {};
     let count = 0;
 
-    for (let i = 0; i < data.length; i++) {
-      const playerList = data[i].players.filter((player) => player[opponentGamerID.idType] == opponentID);
-      if (playerList != '' && data[i].game_type == 0) {
-        playedGames.push(playerList);
+    const playedGamesList = data.filter((g) => {
+      for (let p = 0; p < g.players.length; p++) {
+        if (g.players[p][opponentGamerID.idType] == opponentID) {
+          return true;
+        }
       }
-    }
+    });
+    // console.log(playedGamesList);
+    // for (let g = 0; g < playedGamesList.length; g++) {
+    //   for (let p = 0; p < playedGamesList[g].players.length; p++) {
+    //     if (
+    //       playedGamesList[g].players[p][opponentGamerID.idType] == opponentID &&
+    //       playedGamesList[g].players[p].won == true
+    //     ) {
+    //       count += 1;
+    //     }
+    //   }
+    // }
+    // console.log(count);
 
-    for (let t = 0; t < playedGames.length; t++) {
-      if (playedGames[t][0].won == true) {
-        count += 1;
-      }
-    }
+    // for (let i = 0; i < data.length; i++) {
+    //   const playerList = data[i].players.filter((player) => player[opponentGamerID.idType] == opponentID);
+    //   if (playerList != '' && data[i].game_type == 0) {
+    //     playedGames.push(playerList);
+    //   }
+    // }
 
-    winrate.playerName = playerNameRank.playerName;
-    winrate.playerRating = playerNameRank.playerRating;
-    winrate.opponentName = opponentNameRank.playerName;
-    winrate.opponentRating = opponentNameRank.playerRating;
-    winrate.playerLost = count;
-    winrate.played = playedGames.length;
-    let opponentWinrate = Math.floor((count / playedGames.length) * 10000) / 100;
-    winrate.loserate = opponentWinrate + '%';
-    winrate.winrate = Math.floor((100 - opponentWinrate) * 100) / 100 + '%';
+    // for (let t = 0; t < playedGames.length; t++) {
+    //   if (playedGames[t][0].won == true) {
+    //     count += 1;
+    //   }
+    // }
 
-    return winrate;
+    // winrate.playerName = playerNameRank.playerName;
+    // winrate.playerRating = playerNameRank.playerRating;
+    // winrate.opponentName = opponentNameRank.playerName;
+    // winrate.opponentRating = opponentNameRank.playerRating;
+    // winrate.playerLost = count;
+    // winrate.played = playedGamesList.length;
+    // let opponentWinrate = Math.floor((count / playedGamesList.length) * 10000) / 100;
+    // winrate.loserate = opponentWinrate + '%';
+    // winrate.winrate = Math.floor((100 - opponentWinrate) * 100) / 100 + '%';
+
+    return playedGamesList;
   }
   getAllGames().then((response) => res.json(response));
 });
