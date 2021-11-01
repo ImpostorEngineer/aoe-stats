@@ -130,7 +130,11 @@ function calculateWinRate(data, p1id, p2id) {
       }
     }
   }
-  finalData.loseRate = Math.floor((finalData.loseCount / finalData.playedCount) * 10000) / 100;
-  finalData.winRate = Math.floor((100 - finalData.loseRate) * 100) / 100;
+  if (finalData.loseRate == 0 && (finalData.playedCount == 0 || finalData.playedCount == undefined)) {
+    finalData.winRate = 0;
+  } else {
+    finalData.loseRate = Math.floor((finalData.loseCount / finalData.playedCount) * 10000) / 100;
+    finalData.winRate = Math.floor((100 - finalData.loseRate) * 100) / 100;
+  }
   renderHTML(finalData, data, p1id, p2id);
 }
