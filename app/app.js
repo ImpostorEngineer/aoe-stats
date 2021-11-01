@@ -85,7 +85,6 @@ router.get('/vs/:id/:opponent', (req, res, next) => {
         }
       }
     });
-
     return playedGamesList;
   }
   getAllGames().then((response) => res.json(response));
