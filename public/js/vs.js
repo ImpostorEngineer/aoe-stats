@@ -40,6 +40,8 @@ async function renderHTML(playerData, data, p1id, p2id) {
   const p2content = document.getElementById('p2content');
   const p1Civs = document.getElementById('p1Civs');
   const p2Civs = document.getElementById('p2Civs');
+  p1Civs.innerHTML = '';
+  p2Civs.innerHTML = '';
 
   p1name.innerHTML = playerData.playerName;
   p2name.innerHTML = playerData.opponentName;
@@ -82,31 +84,27 @@ async function renderHTML(playerData, data, p1id, p2id) {
         p2civName = mapData.civ[c].string;
       }
     }
-    p1Civs.insertAdjacentHTML(
-      'beforeend',
+    p1Civs.innerHTML +=
       '<div class="' +
-        p1txtColor +
-        '"><img src="../civ_crests/' +
-        p1civName +
-        '.png" height="50px">&nbsp;' +
-        p1civName +
-        '&nbsp;' +
-        p1Won +
-        '</div>'
-    );
-    p2Civs.insertAdjacentHTML(
-      'beforeend',
+      p1txtColor +
+      '"><img src="../civ_crests/' +
+      p1civName +
+      '.png" height="50px">&nbsp;' +
+      p1civName +
+      '&nbsp;' +
+      p1Won +
+      '</div>';
+    p2Civs.innerHTML +=
       '<div class="' +
-        p2txtColor +
-        '">' +
-        p2Won +
-        '&nbsp;' +
-        p2civName +
-        '&nbsp;' +
-        '<img src="../civ_crests/' +
-        p2civName +
-        '.png" height="50px"></div>'
-    );
+      p2txtColor +
+      '">' +
+      p2Won +
+      '&nbsp;' +
+      p2civName +
+      '&nbsp;' +
+      '<img src="../civ_crests/' +
+      p2civName +
+      '.png" height="50px"></div>';
   }
 }
 
