@@ -27,7 +27,35 @@ async function getPlayers(p1id, p2id) {
   return playerData;
 }
 
-async function renderHTML(playerData, data, p1id, p2id) {
+async function getPlayerNames(ID) {
+  let idType = 'profile_id';
+  if (ID.length > 7) {
+    idType = 'steam_id';
+  }
+  const profileURL = 'https://aoe2.net/api/player/lastmatch?game=aoe2de&' + idType + '=' + ID;
+  let data = await fetch(profileURL, { mode: 'cors' }).then((response) => response.json());
+  let playerName = data.name;
+  return playerName;
+}
+
+async function getPlayerRating(ID) {
+  let idType = 'profile_id';
+  if (ID.length > 7) {
+    idType = 'steam_id';
+  }
+  const profileURL =
+    'https://aoe2.net/api/player/ratinghistory?game=aoe2de&leaderboard_id=3&count=1&' + idType + '=' + ID;
+  let data = await fetch(profileURL, { mode: 'cors' }).then((response) => response.json());
+  let playerRating = 0;
+  if (data[0] == undefined) {
+    playerRating = 0;
+  } else {
+    playerRating = data[0].rating;
+  }
+  return playerRating;
+}
+
+async function renderHTML(playerData, idType, data, p1id, p2id) {
   const map_url = 'https://aoe2.net/api/strings?game=aoe2de&language=en';
   const mapData = await fetch(map_url, { mode: 'cors' }).then((response) => response.json());
   const shortData = data.slice(0, 5);
@@ -40,11 +68,20 @@ async function renderHTML(playerData, data, p1id, p2id) {
   const p2content = document.getElementById('p2content');
   const p1Civs = document.getElementById('p1Civs');
   const p2Civs = document.getElementById('p2Civs');
+  const p1rating = document.getElementById('p1rating');
+  const p2rating = document.getElementById('p2rating');
   p1Civs.innerHTML = '';
   p2Civs.innerHTML = '';
 
-  p1name.innerHTML = playerData.playerName;
-  p2name.innerHTML = playerData.opponentName;
+  let p1NameData = await getPlayerNames(p1id);
+  let p2NameData = await getPlayerNames(p2id);
+  let p1RatingData = await getPlayerRating(p1id);
+  let p2RatingData = await getPlayerRating(p2id);
+
+  p1name.innerHTML = p1NameData;
+  p2name.innerHTML = p2NameData;
+  p1rating.innerHTML = '(' + p1RatingData + ')';
+  p2rating.innerHTML = '(' + p2RatingData + ')';
   p1rate.innerHTML = playerData.winRate + '%';
   p2rate.innerHTML = playerData.loseRate + '%';
   p1content.innerHTML = playerData.playedCount - playerData.loseCount;
@@ -109,10 +146,9 @@ async function renderHTML(playerData, data, p1id, p2id) {
 }
 
 function calculateWinRate(data, p1id, p2id) {
+  let idType = 'profile_id';
   if (p1id.length > 7) {
     idType = 'steam_id';
-  } else {
-    idType = 'profile_id';
   }
 
   let finalData = {};
@@ -130,11 +166,12 @@ function calculateWinRate(data, p1id, p2id) {
       }
     }
   }
-  if (finalData.loseRate == 0 && (finalData.playedCount == 0 || finalData.playedCount == undefined)) {
+  if (finalData.playedCount == 0) {
     finalData.winRate = 0;
+    finalData.loseRate = 0;
   } else {
     finalData.loseRate = Math.floor((finalData.loseCount / finalData.playedCount) * 10000) / 100;
     finalData.winRate = Math.floor((100 - finalData.loseRate) * 100) / 100;
   }
-  renderHTML(finalData, data, p1id, p2id);
+  renderHTML(finalData, idType, data, p1id, p2id);
 }

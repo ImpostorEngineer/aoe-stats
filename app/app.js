@@ -72,33 +72,11 @@ router.get('/vs/:id/:opponent', (req, res, next) => {
   const playerGamerID = idTypeNumber(playerID);
   const opponentGamerID = idTypeNumber(opponentID);
 
-  async function getPlayerNames(ID) {
-    const profileURL = 'https://aoe2.net/api/player/lastmatch?game=aoe2de&' + ID.gamerID;
-    let response = await axios.get(profileURL);
-    let data = response.data;
-    let playerName = data.name;
-    let playerRating = 0;
-    for (let p = 0; p < data.last_match.players.length; p++) {
-      if (data.last_match.players[p][ID.idType] == playerID) {
-        playerRating = data.last_match.players[p].rating;
-      }
-    }
-    return { playerName, playerRating };
-  }
-
   async function getAllGames() {
     const url = 'https://aoe2.net/api/player/matches?game=aoe2de&' + playerGamerID.gamerID + '&count=1000';
 
-    const playerNameRank = await getPlayerNames(playerGamerID);
-    const opponentNameRank = await getPlayerNames(opponentGamerID);
-
     let response = await axios.get(url);
     let data = response.data;
-    // const data = require('./history.json');
-
-    let playedGames = {};
-    let winrate = {};
-    let count = 0;
 
     const playedGamesList = data.filter((g) => {
       for (let p = 0; p < g.players.length; p++) {
@@ -107,41 +85,6 @@ router.get('/vs/:id/:opponent', (req, res, next) => {
         }
       }
     });
-    // console.log(playedGamesList);
-    // for (let g = 0; g < playedGamesList.length; g++) {
-    //   for (let p = 0; p < playedGamesList[g].players.length; p++) {
-    //     if (
-    //       playedGamesList[g].players[p][opponentGamerID.idType] == opponentID &&
-    //       playedGamesList[g].players[p].won == true
-    //     ) {
-    //       count += 1;
-    //     }
-    //   }
-    // }
-    // console.log(count);
-
-    // for (let i = 0; i < data.length; i++) {
-    //   const playerList = data[i].players.filter((player) => player[opponentGamerID.idType] == opponentID);
-    //   if (playerList != '' && data[i].game_type == 0) {
-    //     playedGames.push(playerList);
-    //   }
-    // }
-
-    // for (let t = 0; t < playedGames.length; t++) {
-    //   if (playedGames[t][0].won == true) {
-    //     count += 1;
-    //   }
-    // }
-
-    // winrate.playerName = playerNameRank.playerName;
-    // winrate.playerRating = playerNameRank.playerRating;
-    // winrate.opponentName = opponentNameRank.playerName;
-    // winrate.opponentRating = opponentNameRank.playerRating;
-    // winrate.playerLost = count;
-    // winrate.played = playedGamesList.length;
-    // let opponentWinrate = Math.floor((count / playedGamesList.length) * 10000) / 100;
-    // winrate.loserate = opponentWinrate + '%';
-    // winrate.winrate = Math.floor((100 - opponentWinrate) * 100) / 100 + '%';
 
     return playedGamesList;
   }
