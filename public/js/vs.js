@@ -8,7 +8,6 @@ window.onload = async function onPageLoad() {
   const p2id = '196240';
   let data = await getAllGames(p1id, p2id);
   calculateWinRate(data, p1id, p2id);
-  document.getElementById('loading').style.display = 'none';
 };
 
 async function formSubmitted(event) {
