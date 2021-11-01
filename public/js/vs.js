@@ -18,7 +18,6 @@ async function formSubmitted(event) {
   document.getElementById('loading').style.display = 'inline-block';
   let data = await getPlayers(p1id, p2id);
   calculateWinRate(data, p1id, p2id);
-  document.getElementById('loading').style.display = 'none';
 }
 
 async function getAllGames(p1id, p2id) {
@@ -162,6 +161,7 @@ async function renderHTML(playerData, idType, data, p1id, p2id) {
       p2civName +
       '.png" height="50px"></div>';
   }
+  document.getElementById('loading').style.display = 'none';
 }
 
 function calculateWinRate(data, p1id, p2id) {
