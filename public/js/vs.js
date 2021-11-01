@@ -15,7 +15,7 @@ async function formSubmitted(event) {
   const p1id = p1IDinput.value;
   const p2id = p2IDinput.value;
   document.getElementById('loading').style.display = 'inline-block';
-  let data = await getPlayers(p1id, p2id);
+  let data = await getAllGames(p1id, p2id);
   calculateWinRate(data, p1id, p2id);
 }
 
