@@ -102,7 +102,7 @@ router.get('/vs/:id/:opponent', (req, res, next) => {
 
     const playedGamesList = data.filter((g) => {
       for (let p = 0; p < g.players.length; p++) {
-        if (g.players[p][opponentGamerID.idType] == opponentID && g.game_type == 0) {
+        if (g.players[p][opponentGamerID.idType] == opponentID) {
           return true;
         }
       }
