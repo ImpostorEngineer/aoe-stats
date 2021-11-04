@@ -142,7 +142,7 @@ router.get('/current/:id/:count', (req, res, next) => {
       }
     }
     winrate.playerName = currentPlayers.name;
-    winrate.playerID = id;
+    winrate.playerID = ++id;
     winrate.opponentName = opponent.name;
     winrate.opponentRating = opponent.rating;
     winrate.opponentID = opponent.id;
