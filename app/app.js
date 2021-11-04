@@ -142,8 +142,10 @@ router.get('/current/:id/:count', (req, res, next) => {
       }
     }
     winrate.playerName = currentPlayers.name;
+    winrate.playerID = id;
     winrate.opponentName = opponent.name;
     winrate.opponentRating = opponent.rating;
+    winrate.opponentID = opponent.id;
     winrate.lost = count;
     winrate.played = playedGames.length;
     let opponentWinrate = Math.floor((count / playedGames.length) * 10000) / 100;
@@ -155,4 +157,4 @@ router.get('/current/:id/:count', (req, res, next) => {
   getCurrentGame().then((response) => res.json(response));
 });
 
-https: module.exports = router;
+module.exports = router;
