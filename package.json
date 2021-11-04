@@ -1,10 +1,10 @@
 {
-  "name": "AOE-Rank",
+  "name": "AOE Rank",
   "version": "1.0.0",
   "description": "Using the data from aoe2.net, this page displays the rank and civilizations of current players.",
-  "main": "data.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node ./app/app.js"
+    "start": "node ./server.js"
   },
   "repository": {
     "type": "git",
@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/ImpostorEngineer/AOE-Rank#readme",
   "dependencies": {
-    "axios": "^0.23.0",
-    "express": ">=4.17.1"
+    "axios": "^0.24.0",
+    "express": "^4.17.1"
   }
 }
