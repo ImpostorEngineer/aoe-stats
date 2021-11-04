@@ -148,7 +148,7 @@ router.get('/current/:id/:count', (req, res, next) => {
     winrate.played = playedGames.length;
     let opponentWinrate = Math.floor((count / playedGames.length) * 10000) / 100;
     winrate.loserate = opponentWinrate + '%';
-    winrate.winrate = 100 - opponentWinrate + '%';
+    winrate.winrate = Math.floor((100 - opponentWinrate) * 100) / 100 + '%';
 
     return winrate;
   }
