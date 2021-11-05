@@ -101,7 +101,7 @@ async function renderHTML(playerData, idType, data, p1id, p2id) {
     }
 
     civList.innerHTML +=
-      '<div class="col-4 my-2 align-items-center ' +
+      '<div class="col-5 my-2 align-items-center ' +
       p1txtColor +
       '"><img src="../civ_crests/' +
       p1civName +
@@ -113,9 +113,9 @@ async function renderHTML(playerData, idType, data, p1id, p2id) {
       p1civName +
       '</a>&nbsp;' +
       p1Won +
-      '</div><div class="col mt-3 text-center">' +
+      '</div><div class="col-2 col-sm-2 mt-3 text-center">' +
       mapName +
-      '</div><div class="col-4 my-2 align-items-center ' +
+      '</div><div class="col-5 my-2 align-items-center ' +
       p2txtColor +
       '">' +
       p2Won +
@@ -128,7 +128,7 @@ async function renderHTML(playerData, idType, data, p1id, p2id) {
       '</a>&nbsp;' +
       '<img src="../civ_crests/' +
       p2civName +
-      '.png" height="50px"></div>';
+      '.png" height="50px"></div><div class="w-100"></div>';
   }
   document.getElementById('loading').style.display = 'none';
 }
