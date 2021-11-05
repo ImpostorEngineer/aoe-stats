@@ -55,106 +55,78 @@ router.get('/:id/:count', (req, res, next) => {
   getGames().then((response) => res.json(response));
 });
 
-router.get('/vs/:id/:opponent', (req, res, next) => {
-  const opponentID = req.params.opponent;
-  const playerID = req.params.id;
+async function getAllGames(p1ID, p2ID) {
+  const playerGamerID = idTypeNumber(p1ID);
+  const opponentGamerID = idTypeNumber(p2ID);
 
-  function idTypeNumber(number) {
-    if (number.length > 7) {
-      idType = 'steam_id';
-      gamerID = 'steam_id=' + number;
-    } else {
-      idType = 'profile_id';
-      gamerID = 'profile_id=' + number;
-    }
-    return { idType, gamerID };
-  }
-  const playerGamerID = idTypeNumber(playerID);
-  const opponentGamerID = idTypeNumber(opponentID);
+  const url = 'https://aoe2.net/api/player/matches?game=aoe2de&' + playerGamerID.gamerID + '&count=1000';
 
-  async function getAllGames() {
-    const url = 'https://aoe2.net/api/player/matches?game=aoe2de&' + playerGamerID.gamerID + '&count=1000';
+  let response = await axios.get(url);
+  let data = response.data;
 
-    let response = await axios.get(url);
-    let data = response.data;
-
-    const playedGamesList = data.filter((g) => {
-      for (let p = 0; p < g.players.length; p++) {
-        if (g.players[p][opponentGamerID.idType] == opponentID && g.players.length == 2) {
-          return true;
-        }
+  const playedGamesList = data.filter((g) => {
+    for (let p = 0; p < g.players.length; p++) {
+      if (g.players[p][opponentGamerID.idType] == p2ID && g.players.length == 2) {
+        return true;
       }
-    });
-    return playedGamesList;
-  }
-  getAllGames().then((response) => res.json(response));
-});
+    }
+  });
+  return playedGamesList;
+}
 
-router.get('/current/:id/:count', (req, res, next) => {
-  const id = req.params.id;
-  const gameCount = req.params.count;
-  if (id.length > 7) {
+function idTypeNumber(number) {
+  if (number.length > 7) {
     idType = 'steam_id';
-    gamerID = 'steam_id=' + id;
+    gamerID = 'steam_id=' + number;
   } else {
     idType = 'profile_id';
-    gamerID = 'profile_id=' + id;
+    gamerID = 'profile_id=' + number;
   }
-  const playerURL = 'https://aoe2.net/api/player/lastmatch?game=aoe2de&' + gamerID;
+  return { idType, gamerID };
+}
 
-  async function getCurrentGame() {
-    let playedGames = [];
-    let winrate = {};
-    let count = 0;
-
-    let currentGame = await axios.get(playerURL);
-
-    const currentPlayers = currentGame.data;
-
-    let opponent = {};
-
-    for (let p = 0; p < currentPlayers.last_match.players.length; p++) {
-      if (currentPlayers.last_match.players[p][idType] != id) {
-        opponent.id = currentPlayers.last_match.players[p][idType];
-        opponent.name = currentPlayers.last_match.players[p].name;
-        opponent.rating = currentPlayers.last_match.players[p].rating;
-      }
-      if (currentPlayers.last_match.players[p][idType] == id) {
-        winrate.playerRating = currentPlayers.last_match.players[p].rating;
-      }
-    }
-
-    const gameHistoryURL = 'https://aoe2.net/api/player/matches?game=aoe2de&' + gamerID + '&count=' + gameCount;
-
-    let response = await axios.get(gameHistoryURL);
-    let data = response.data;
-
-    for (let i = 0; i < data.length; i++) {
-      const playerList = data[i].players.filter((player) => player[idType] == opponent.id);
-      if (playerList != '' && data[i].game_type == 0) {
-        playedGames.push(playerList);
-      }
-    }
-
-    for (let t = 0; t < playedGames.length; t++) {
-      if (playedGames[t][0].won == true) {
-        count += 1;
-      }
-    }
-    winrate.playerName = currentPlayers.name;
-    winrate.playerID = id;
-    winrate.opponentName = opponent.name;
-    winrate.opponentRating = opponent.rating;
-    winrate.opponentID = opponent.id;
-    winrate.lost = count;
-    winrate.played = playedGames.length;
-    let opponentWinrate = Math.floor((count / playedGames.length) * 10000) / 100;
-    winrate.loserate = opponentWinrate + '%';
-    winrate.winrate = Math.floor((100 - opponentWinrate) * 100) / 100 + '%';
-
-    return winrate;
-  }
-  getCurrentGame().then((response) => res.json(response));
+router.get('/vs/:id/:opponent', (req, res, next) => {
+  const p2ID = req.params.opponent;
+  const p1ID = req.params.id;
+  getAllGames(p1ID, p2ID).then((response) => res.json(response));
 });
+
+// router.get('/current/:id/:count', (req, res, next) => {
+//   const p1ID = req.params.id;
+//   const gameCount = req.params.count;
+
+//     const gameHistoryURL = 'https://aoe2.net/api/player/matches?game=aoe2de&' + gamerID + '&count=' + gameCount;
+
+//     let response = await axios.get(gameHistoryURL);
+//     let data = response.data;
+
+//   //   for (let i = 0; i < data.length; i++) {
+//   //     const playerList = data[i].players.filter((player) => player[idType] == opponent.id);
+//   //     if (playerList != '' && data[i].game_type == 0) {
+//   //       playedGames.push(playerList);
+//   //     }
+//   //   }
+
+//   //   for (let t = 0; t < playedGames.length; t++) {
+//   //     if (playedGames[t][0].won == true) {
+//   //       count += 1;
+//   //     }
+//   //   }
+//   //   winrate.playerName = currentPlayers.name;
+//   //   winrate.playerID = id;
+//   //   winrate.opponentName = opponent.name;
+//   //   winrate.opponentRating = opponent.rating;
+//   //   winrate.opponentID = opponent.id;
+//   //   winrate.lost = count;
+//   //   winrate.played = playedGames.length;
+//   //   let opponentWinrate = Math.floor((count / playedGames.length) * 10000) / 100;
+//   //   winrate.loserate = opponentWinrate + '%';
+//   //   winrate.winrate = Math.floor((100 - opponentWinrate) * 100) / 100 + '%';
+
+//   //   return winrate;
+//   // }
+
+//   getAllGames(p1ID, p2ID).then((response) => res.json(response));
+// });
 
 module.exports = router;

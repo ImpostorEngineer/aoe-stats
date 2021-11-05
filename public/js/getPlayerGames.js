@@ -97,9 +97,13 @@ async function renderHTML(playerData, idType, data, p1id, p2id) {
       p1txtColor +
       '"><img src="../civ_crests/' +
       p1civName +
-      '.png" height="50px">&nbsp;' +
+      '.png" height="50px">&nbsp;<a class="text-decoration-none ' +
+      p1txtColor +
+      '" href="https://aoe2techtree.net/#' +
       p1civName +
-      '&nbsp;' +
+      '" target="_blank">' +
+      p1civName +
+      '</a>&nbsp;' +
       p1Won +
       '</div>';
     p2Civs.innerHTML +=
@@ -107,9 +111,13 @@ async function renderHTML(playerData, idType, data, p1id, p2id) {
       p2txtColor +
       '">' +
       p2Won +
-      '&nbsp;' +
+      '&nbsp;<a class="text-decoration-none ' +
+      p2txtColor +
+      '" href="https://aoe2techtree.net/#' +
       p2civName +
-      '&nbsp;' +
+      '" target="_blank">' +
+      p2civName +
+      '</a>&nbsp;' +
       '<img src="../civ_crests/' +
       p2civName +
       '.png" height="50px"></div>';
