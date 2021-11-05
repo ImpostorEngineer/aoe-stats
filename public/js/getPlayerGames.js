@@ -96,12 +96,11 @@ async function renderHTML(playerData, idType, data, p1id, p2id) {
     for (let m = 0; m < mapData.map_type.length; m++) {
       if (mapData.map_type[m].id == mapID) {
         mapName = mapData.map_type[m].string;
-        console.log(mapName);
       }
     }
 
     civList.innerHTML +=
-      '<div class="col-5 my-2 align-items-center ' +
+      '<div class="civrow m-auto"><div class="civcol-4 text-start ' +
       p1txtColor +
       '"><img src="../civ_crests/' +
       p1civName +
@@ -113,9 +112,9 @@ async function renderHTML(playerData, idType, data, p1id, p2id) {
       p1civName +
       '</a>&nbsp;' +
       p1Won +
-      '</div><div class="col-2 col-sm-2 mt-3 text-center">' +
+      '</div><div class="civcol-2 text-center">' +
       mapName +
-      '</div><div class="col-5 my-2 align-items-center ' +
+      '</div><div class="civcol-4 text-end ' +
       p2txtColor +
       '">' +
       p2Won +
@@ -128,7 +127,7 @@ async function renderHTML(playerData, idType, data, p1id, p2id) {
       '</a>&nbsp;' +
       '<img src="../civ_crests/' +
       p2civName +
-      '.png" height="50px"></div><div class="w-100"></div>';
+      '.png" height="50px"></div></div>';
   }
   document.getElementById('loading').style.display = 'none';
 }

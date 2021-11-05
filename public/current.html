@@ -14,12 +14,33 @@
       integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
       crossorigin="anonymous"
     />
+    <style>
+      .civrow {
+        width: 600px;
+        display: flex;
+        flex-flow: row wrap;
+      }
+      .civcol {
+        line-height: 50px !important;
+        text-align: center;
+        vertical-align: middle;
+        background-color: #ccc;
+        border: 1px solid #000;
+      }
+      .civcol-4 {
+        width: 230px;
+      }
+      .civcol-2 {
+        width: 140px;
+        line-height: 50px !important;
+      }
+    </style>
     <title>AOE2 Win Rate</title>
   </head>
   <body>
     <div class="container-sm py-5">
       <div class="" style="max-width: 900px">
-        <h3 class="text-left">Enter Player ID:</h3>
+        <h4 class="text-left">Enter Player ID:</h4>
         <form action="" method="get" class="text-center">
           <div class="row">
             <div class="col py-3"><input type="text" class="form-control text-center" id="p1id" /></div>
@@ -32,7 +53,7 @@
           </div>
           <div class="row">
             <div class="col"><h2 id="p1name"></h2></div>
-            <div class="col"><h2>VS</h2></div>
+            <div class="col"><h3>VS</h3></div>
             <div class="col"><h2 id="p2name"></h2></div>
           </div>
           <div class="row">
@@ -51,7 +72,7 @@
         <div class="row">
           <div class="col py-2 text-center text-uppercase fw-bold">Last Played Civs</div>
         </div>
-        <div class="row fw-bold align-middle text-center align-self-center" id="civList"> </div>
+        <div class="fw-bold text-center m-auto" id="civList"> </div>
       </div>
     </div>
     <script

@@ -22,5 +22,6 @@ async function formSubmitted(event) {
 async function getPlayers(p1id, p2id) {
   const dataURL = './api/vs/' + p1id + '/' + p2id;
   const playerData = await fetch(dataURL, { mode: 'same-origin' }).then((response) => response.json());
+  console.log(playerData);
   return playerData;
 }
