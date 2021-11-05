@@ -37,12 +37,10 @@ async function renderHTML(playerData, idType, data, p1id, p2id) {
   const p2rate = document.getElementById('p2rate');
   const p1content = document.getElementById('p1content');
   const p2content = document.getElementById('p2content');
-  const p1Civs = document.getElementById('p1Civs');
-  const p2Civs = document.getElementById('p2Civs');
+  const civList = document.getElementById('civList');
   const p1rating = document.getElementById('p1rating');
   const p2rating = document.getElementById('p2rating');
-  p1Civs.innerHTML = '';
-  p2Civs.innerHTML = '';
+  civList.innerHTML = '';
 
   let p1NameData = await getPlayerNames(p1id);
   let p2NameData = await getPlayerNames(p2id);
@@ -67,8 +65,11 @@ async function renderHTML(playerData, idType, data, p1id, p2id) {
     let p2civ = '';
     let p2civName = '';
     let p2Won = '&#10004;';
+    let mapID = '';
+    let mapName = '';
 
     for (let p = 0; p < shortData[g].players.length; p++) {
+      mapID = shortData[g].map_type;
       if (shortData[g].players[p][idType] == p1id) {
         p1civ = shortData[g].players[p].civ;
         if (shortData[g].players[p].won == false) {
@@ -92,8 +93,15 @@ async function renderHTML(playerData, idType, data, p1id, p2id) {
         p2civName = mapData.civ[c].string;
       }
     }
-    p1Civs.innerHTML +=
-      '<div class="' +
+    for (let m = 0; m < mapData.map_type.length; m++) {
+      if (mapData.map_type[m].id == mapID) {
+        mapName = mapData.map_type[m].string;
+        console.log(mapName);
+      }
+    }
+
+    civList.innerHTML +=
+      '<div class="col-4 my-2 align-items-center ' +
       p1txtColor +
       '"><img src="../civ_crests/' +
       p1civName +
@@ -105,9 +113,9 @@ async function renderHTML(playerData, idType, data, p1id, p2id) {
       p1civName +
       '</a>&nbsp;' +
       p1Won +
-      '</div>';
-    p2Civs.innerHTML +=
-      '<div class="' +
+      '</div><div class="col mt-3 text-center">' +
+      mapName +
+      '</div><div class="col-4 my-2 align-items-center ' +
       p2txtColor +
       '">' +
       p2Won +
