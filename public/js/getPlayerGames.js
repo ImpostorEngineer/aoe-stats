@@ -100,7 +100,7 @@ async function renderHTML(playerData, idType, data, p1id, p2id) {
     }
 
     civList.innerHTML +=
-      '<div class="civrow m-auto"><div class="civcol-4 text-start ' +
+      '<div class="row m-auto"><div class="col-5 civname text-start ' +
       p1txtColor +
       '"><img src="../civ_crests/' +
       p1civName +
@@ -112,9 +112,9 @@ async function renderHTML(playerData, idType, data, p1id, p2id) {
       p1civName +
       '</a>&nbsp;' +
       p1Won +
-      '</div><div class="civcol-2 text-center">' +
+      '</div><div class="col-2 mapname text-center">' +
       mapName +
-      '</div><div class="civcol-4 text-end ' +
+      '</div><div class="col-5 civname text-end ' +
       p2txtColor +
       '">' +
       p2Won +
