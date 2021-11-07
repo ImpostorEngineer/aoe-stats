@@ -1,6 +1,6 @@
 {
-  "name": "AOE Rank",
-  "version": "1.0.0",
+  "name": "ageofempiresrankstats",
+  "version": "1.2.0",
   "description": "Using the data from aoe2.net, this page displays the rank and civilizations of current players.",
   "main": "server.js",
   "scripts": {
