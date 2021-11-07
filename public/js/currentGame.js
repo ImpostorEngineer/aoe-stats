@@ -36,6 +36,7 @@ window.onload = async function onPageLoad() {
 
 async function formSubmitted(event) {
   event.preventDefault();
+  document.getElementById('results').style.display = 'none';
   const p1id = p1IDinput.value;
   const p2idData = await getCurrentOpponentID(p1id);
   const p2id = p2idData.p2ID;

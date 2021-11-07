@@ -12,6 +12,7 @@ window.onload = async function onPageLoad() {
 
 async function formSubmitted(event) {
   event.preventDefault();
+  document.getElementById('results').style.display = 'none';
   const p1id = p1IDinput.value;
   const p2id = p2IDinput.value;
   document.getElementById('loading').style.display = 'inline-block';
