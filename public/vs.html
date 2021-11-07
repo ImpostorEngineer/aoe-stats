@@ -14,61 +14,78 @@
       integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
       crossorigin="anonymous"
     />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <style>
+      * {
+        font-family: 'Inter', sans-serif;
+      }
       .mapname {
         line-height: 50px;
         vertical-align: middle;
+        padding: 0;
+      }
+      #results {
+        display: none;
+      }
+      #civList .col-5 {
+        padding: 0 !important;
       }
     </style>
     <title>AOE2 Win Rate</title>
   </head>
   <body>
-    <div class="container">
-      <div class="" style="max-width: 600px">
-        <h4 class="text-center">Enter Player ID:</h4>
-        <form action="" method="get">
-          <div class="row">
-            <div class="col col-5 py-3"
-              ><input type="text" class="form-control text-center" name="p1id" id="p1id"
-            /></div>
-            <div class="col col-2 py-3 text-center">
-              <div class="spinner-border text-danger" id="loading" role="status">
-                <span class="sr-only"></span>
+    <div class="container" style="max-width: 600px">
+      <h3 class="text-start text-uppercase mt-3">Let's see who is winning!</h3>
+      <form action="" method="get">
+        <div class="row">
+          <div class="col col-6 py-3">
+            <div class="row mb-2">
+              <label for="p1id" class="col-4 col-form-label fw-bold">P1 ID:</label>
+              <div class="col-8">
+                <input type="text" class="form-control text-center" name="p1id" id="p1id" />
               </div>
             </div>
-            <div class="col col-5 py-3"
-              ><input type="text" class="form-control text-center" name="p2id" id="p2id"
-            /></div>
-          </div>
-          <div class="ro">
-            <div class="col col-12 py-3 text-center">
-              <button class="btn btn-danger" type="submit" value="submit">Submit</button>
+            <div class="row mb-2">
+              <label for="p2id" class="col-4 col-form-label fw-bold">P2 ID:</label>
+              <div class="col-8">
+                <input type="text" class="form-control text-center" name="p2id" id="p2id" />
+              </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col col-5 text-start"><h3 id="p1name"></h3></div>
-            <div class="col col-2 text-center"><h5>VS</h5></div>
-            <div class="col col-5 text-end"><h3 id="p2name"></h3></div>
+          <div class="col col-3 py-3 text-center align-middle">
+            <button class="btn btn-danger" type="submit" value="submit">Submit</button>
           </div>
-          <div class="row text-center">
-            <div class="col col-4 text-start"><h4 id="p1rating"></h4></div>
-            <div class="col col-4 fs-5 fw-bold">Latest Rating</div>
-            <div class="col col-4 text-end"><h4 id="p2rating"></h4></div>
-          </div>
-          <div class="row">
-            <div class="col col-3 fw-bolder text-start">Won&nbsp;<span id="p1content"></span>&nbsp;Games</div>
-            <div class="col col-6 text-center">
-              <p class="fs-3 fw-bold"><span id="p1rate"></span>&nbsp;-&nbsp;<span id="p2rate"> </span></p>
+          <div class="col col-3 py-3 text-center align-middle">
+            <div class="spinner-border text-danger" id="loading" role="status">
+              <span class="sr-only"></span>
             </div>
-            <div class="col col-3 fw-bolder text-end">Won&nbsp;<span id="p2content"></span>&nbsp;Games</div>
           </div>
-        </form>
-        <div class="row">
+        </div>
+      </form>
+      <div id="results">
+        <div class="row my-2 fs-4 fw-bold">
+          <div class="col col-6 text-start"><span id="p1name"></span></div>
+          <div class="col col-6 text-end"><span id="p2name"></span></div>
+        </div>
+        <div class="row text-center my-2 fs-4 fw-normal">
+          <div class="col col-6 text-start"><span id="p1rating"></span></div>
+          <div class="col col-6 text-end"><span id="p2rating"></span></div>
+        </div>
+        <div class="row my-2">
+          <div class="col col-3 fw-bolder text-start">Won&nbsp;<span id="p1content"></span>&nbsp;Games</div>
+          <div class="col col-6 text-center fs-4 fw-bold">
+            <span id="p1rate"></span>&nbsp;-&nbsp;<span id="p2rate"></span>
+          </div>
+          <div class="col col-3 fw-bolder text-end">Won&nbsp;<span id="p2content"></span>&nbsp;Games</div>
+        </div>
+        <div class="row my-2">
           <div class="col col-3"></div>
           <div class="col col-6 py-2 text-center text-uppercase fw-bold">Last Played Civs</div>
           <div class="col col-3"></div>
         </div>
-        <div class="fw-bold text-center m-auto align-center" id="civList"> </div>
+        <div class="fw-bold text-center m-auto align-center" id="civList"></div>
       </div>
     </div>
     <script

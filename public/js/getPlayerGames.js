@@ -129,6 +129,7 @@ async function renderHTML(playerData, idType, data, p1id, p2id) {
       p2civName +
       '.png" height="50px"></div></div>';
   }
+  document.getElementById('results').style.display = 'initial';
   document.getElementById('loading').style.display = 'none';
 }
 
