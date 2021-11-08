@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <title>Document</title>
+    <title>AOE4 Rank</title>
     <style>
       body {
         color: #fff;
@@ -17,6 +17,9 @@
         width: 500px;
         display: flex;
         flex-flow: row wrap;
+      }
+      .title {
+        font-weight: 700;
       }
       .col {
         line-height: 50px;
@@ -33,7 +36,7 @@
     </style>
   </head>
   <body>
-    <div class="row">
+    <div class="row title">
       <div class="col col-4" id="">Name</div>
       <div class="col col-4" id="">Rank</div>
       <div class="col col-4" id="">ELO</div>
@@ -46,7 +49,10 @@
       <div class="col col-4" id="winrate"></div>
     </div>
     <script>
-      async function aoe4Data() {
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      const id = urlParams.get('id');
+      async function aoe4Data(id) {
         let data = await fetch('https://api.ageofempires.com/api/ageiv/Leaderboard', {
           headers: {
             accept: 'application/json, text/javascript, */*; q=0.01',
@@ -66,11 +72,10 @@
           mode: 'cors',
           credentials: 'include',
         }).then((response) => response.json());
-        console.log(data.items[0]);
         let aoe4rankdata = data.items;
 
         for (let p = 0; p < aoe4rankdata.length; p++) {
-          if (aoe4rankdata[p].rlUserId == 193771) {
+          if (aoe4rankdata[p].rlUserId == id) {
             document.getElementById('name').innerHTML = aoe4rankdata[p].userName;
             document.getElementById('rank').innerHTML = aoe4rankdata[p].rank;
             document.getElementById('elo').innerHTML = aoe4rankdata[p].elo;
@@ -78,7 +83,7 @@
           }
         }
       }
-      aoe4Data();
+      aoe4Data(id);
     </script>
   </body>
 </html>
