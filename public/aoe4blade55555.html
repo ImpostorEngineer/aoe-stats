@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <title>Document</title>
+    <style>
+      body {
+        color: #fff;
+        font-family: Inter, sans-serif;
+      }
+      .row {
+        width: 500px;
+        display: flex;
+        flex-flow: row wrap;
+      }
+      .col {
+        line-height: 50px;
+        text-align: center;
+        background-color: #9b51e0;
+        border: 1px solid #e7ad0d;
+      }
+      .col-4 {
+        width: 120px;
+      }
+      .col-2 {
+        flex-grow: 2;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="row">
+      <div class="col col-4" id="">Name</div>
+      <div class="col col-4" id="">Rank</div>
+      <div class="col col-4" id="">ELO</div>
+      <div class="col col-4" id="">Win Rate</div>
+    </div>
+    <div class="row">
+      <div class="col col-4" id="name"></div>
+      <div class="col col-4" id="rank"></div>
+      <div class="col col-4" id="elo"></div>
+      <div class="col col-4" id="winrate"></div>
+    </div>
+    <script>
+      async function aoe4Data() {
+        let data = await fetch('https://api.ageofempires.com/api/ageiv/Leaderboard', {
+          headers: {
+            accept: 'application/json, text/javascript, */*; q=0.01',
+            'accept-language': 'en-US,en;q=0.9,tr;q=0.8',
+            'content-type': 'application/json',
+            'sec-ch-ua': '"Google Chrome";v="95", "Chromium";v="95", ";Not A Brand";v="99"',
+            'sec-ch-ua-mobile': '?0',
+            'sec-ch-ua-platform': '"Windows"',
+            'sec-fetch-dest': 'empty',
+            'sec-fetch-mode': 'cors',
+            'sec-fetch-site': 'same-site',
+          },
+          referrer: 'https://www.ageofempires.com/',
+          referrerPolicy: 'strict-origin-when-cross-origin',
+          body: '{"region":7,"versus":"players","matchType":"unranked","teamSize":"1v1","searchPlayer":"","page":1,"count":100}',
+          method: 'POST',
+          mode: 'cors',
+          credentials: 'include',
+        }).then((response) => response.json());
+        console.log(data.items[0]);
+        let aoe4rankdata = data.items;
+
+        for (let p = 0; p < aoe4rankdata.length; p++) {
+          if (aoe4rankdata[p].rlUserId == 193771) {
+            document.getElementById('name').innerHTML = aoe4rankdata[p].userName;
+            document.getElementById('rank').innerHTML = aoe4rankdata[p].rank;
+            document.getElementById('elo').innerHTML = aoe4rankdata[p].elo;
+            document.getElementById('winrate').innerHTML = aoe4rankdata[p].winPercent;
+          }
+        }
+      }
+      aoe4Data();
+    </script>
+  </body>
+</html>
