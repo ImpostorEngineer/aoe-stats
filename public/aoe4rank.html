@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta http-equiv="refresh" content="60" />
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,11 +11,15 @@
     <title>AOE4 Rank</title>
     <style>
       body {
-        color: #fff;
+        color: #9b51e0;
+        font-size: 4rem;
+        font-weight: 700;
+        text-shadow: 1px 1px 0 #e7ad0d;
+        /* 1px -1px 0 #e7ad0d, -1px 1px 0 #e7ad0d, 1px 1px 0 #e7ad0d; */
         font-family: Inter, sans-serif;
       }
       .row {
-        width: 500px;
+        width: 600px;
         display: flex;
         flex-flow: row wrap;
       }
@@ -24,11 +29,11 @@
       .col {
         line-height: 50px;
         text-align: center;
-        background-color: #9b51e0;
-        border: 1px solid #e7ad0d;
+        /* background-color: #9b51e0; */
+        /* border: 1px solid #e7ad0d; */
       }
       .col-4 {
-        width: 120px;
+        flex-grow: 6;
       }
       .col-2 {
         flex-grow: 2;
@@ -36,14 +41,14 @@
     </style>
   </head>
   <body>
-    <div class="row title">
+    <!-- <div class="row title">
       <div class="col col-4" id="">Name</div>
       <div class="col col-4" id="">Rank</div>
       <div class="col col-4" id="">ELO</div>
       <div class="col col-4" id="">Win Rate</div>
-    </div>
+    </div> -->
     <div class="row">
-      <div class="col col-4" id="name"></div>
+      <!-- <div class="col col-4" id="name"></div> -->
       <div class="col col-4" id="rank"></div>
       <div class="col col-4" id="elo"></div>
       <div class="col col-4" id="winrate"></div>
@@ -72,14 +77,22 @@
           mode: 'cors',
           credentials: 'include',
         }).then((response) => response.json());
+
         let aoe4rankdata = data.items;
 
         for (let p = 0; p < aoe4rankdata.length; p++) {
           if (aoe4rankdata[p].rlUserId == id) {
-            document.getElementById('name').innerHTML = aoe4rankdata[p].userName;
+            let streakSymbol = '&uarr;';
+            let streakColor = '#090';
+            if (aoe4rankdata[p].winStreak <= 0) {
+              streakSymbol = '&darr;';
+              streakColor = '#F00';
+            }
+            // document.getElementById('name').innerHTML = aoe4rankdata[p].userName;
             document.getElementById('rank').innerHTML = aoe4rankdata[p].rank;
-            document.getElementById('elo').innerHTML = aoe4rankdata[p].elo;
-            document.getElementById('winrate').innerHTML = aoe4rankdata[p].winPercent;
+            document.getElementById('elo').innerHTML =
+              aoe4rankdata[p].elo + '<span style="color:' + streakColor + '">' + streakSymbol + '</span>';
+            document.getElementById('winrate').innerHTML = aoe4rankdata[p].winPercent + '%';
           }
         }
       }
