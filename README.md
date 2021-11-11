@@ -6,6 +6,8 @@ You need to provide `steam_id` or `profile_id` from aoe2.net.
 
 ## Stats Against Another Player
 
-You can check the score between two players vs.html
+You can check the score between two players: `vs.html`
 
-You can get the data from /api/vs/:p1ID/:p2ID
+You can check the win rate against the current opponent: `current.html`
+
+API usage `/api/vs/:p1ID/:p2ID`
