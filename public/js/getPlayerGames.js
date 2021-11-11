@@ -57,11 +57,11 @@ async function renderHTML(playerData, idType, data, p1id, p2id) {
   p2content.innerHTML = playerData.loseCount;
 
   for (let g = 0; g < shortData.length; g++) {
-    let p1txtColor = 'text-primary';
+    let p1txtColor = 'wonTextColor';
     let p1civ = '';
     let p1civName = '';
     let p1Won = '&#10004;';
-    let p2txtColor = 'text-primary';
+    let p2txtColor = 'wonTextColor';
     let p2civ = '';
     let p2civName = '';
     let p2Won = '&#10004;';
@@ -73,14 +73,14 @@ async function renderHTML(playerData, idType, data, p1id, p2id) {
       if (shortData[g].players[p][idType] == p1id) {
         p1civ = shortData[g].players[p].civ;
         if (shortData[g].players[p].won == false) {
-          p1txtColor = 'text-danger';
+          p1txtColor = 'lostTextColor';
           p1Won = '&#10060;';
         }
       }
       if (shortData[g].players[p][idType] == p2id) {
         p2civ = shortData[g].players[p].civ;
         if (shortData[g].players[p].won == false) {
-          p2txtColor = 'text-danger';
+          p2txtColor = 'lostTextColor';
           p2Won = '&#10060;';
         }
       }
@@ -161,6 +161,7 @@ function calculateWinRate(data, p1id, p2id) {
     finalData.loseRate = Math.floor((finalData.loseCount / finalData.playedCount) * 10000) / 100;
     finalData.winRate = Math.floor((100 - finalData.loseRate) * 100) / 100;
   }
+  console.log(finalData);
   renderHTML(finalData, idType, data, p1id, p2id);
 }
 
