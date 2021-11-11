@@ -53,7 +53,7 @@ async function renderHTML(playerData, idType, data, p1id, p2id) {
   p2rating.innerHTML = '(' + p2RatingData + ')';
   p1rate.innerHTML = playerData.winRate + '%';
   p2rate.innerHTML = playerData.loseRate + '%';
-  p1content.innerHTML = playerData.playedCount - playerData.loseCount;
+  p1content.innerHTML = playerData.winCount;
   p2content.innerHTML = playerData.loseCount;
 
   for (let g = 0; g < shortData.length; g++) {
@@ -141,15 +141,15 @@ function calculateWinRate(data, p1id, p2id) {
 
   let finalData = {};
   finalData.loseCount = 0;
+  finalData.winCount = 0;
   finalData.playedCount = data.length;
 
   for (let g = 0; g < data.length; g++) {
     for (let p = 0; p < data[g].players.length; p++) {
-      if (data[g].players[p][idType] == p1id) {
-        finalData.playerName = data[g].players[p].name;
+      if (data[g].players[p][idType] == p1id && data[g].players[p].won == true) {
+        finalData.winCount += 1;
       }
       if (data[g].players[p][idType] == p2id && data[g].players[p].won == true) {
-        finalData.opponentName = data[g].players[p].name;
         finalData.loseCount += 1;
       }
     }
@@ -159,7 +159,7 @@ function calculateWinRate(data, p1id, p2id) {
     finalData.loseRate = 0;
   } else {
     finalData.loseRate = Math.floor((finalData.loseCount / finalData.playedCount) * 10000) / 100;
-    finalData.winRate = Math.floor((100 - finalData.loseRate) * 100) / 100;
+    finalData.winRate = Math.floor((finalData.winCount / finalData.playedCount) * 10000) / 100;
   }
   console.log(finalData);
   renderHTML(finalData, idType, data, p1id, p2id);
