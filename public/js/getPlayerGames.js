@@ -143,8 +143,13 @@ function calculateWinRate(data, p1id, p2id) {
   finalData.loseCount = 0;
   finalData.winCount = 0;
   finalData.playedCount = data.length;
+  // console.log(data);
 
   for (let g = 0; g < data.length; g++) {
+    if (data[g].finished == null) {
+      console.log(data[g]);
+      finalData.playedCount -= 1;
+    }
     for (let p = 0; p < data[g].players.length; p++) {
       if (data[g].players[p][idType] == p1id && data[g].players[p].won == true) {
         finalData.winCount += 1;
