@@ -5,7 +5,7 @@ form.addEventListener('submit', formSubmitted);
 
 window.onload = async function onPageLoad() {
   const p1id = '199325';
-  const p2id = '196240';
+  const p2id = '506898';
   let data = await getPlayers(p1id, p2id);
   calculateWinRate(data, p1id, p2id);
 };
