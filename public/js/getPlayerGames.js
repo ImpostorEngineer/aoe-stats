@@ -47,8 +47,11 @@ async function renderHTML(playerData, idType, data, p1id, p2id) {
   let p1RatingData = await getPlayerRating(p1id);
   let p2RatingData = await getPlayerRating(p2id);
 
-  p1name.innerHTML = p1NameData;
-  p2name.innerHTML = p2NameData;
+  const playerURL = 'https://aoe2.net/#profile-';
+  p1name.innerHTML =
+    '<a class="text-decoration-none text-white" href="' + playerURL + p1id + '" target="_blank">' + p1NameData + '</a>';
+  p2name.innerHTML =
+    '<a class="text-decoration-none text-white" href="' + playerURL + p2id + '" target="_blank">' + p2NameData + '</a>';
   p1rating.innerHTML = '(' + p1RatingData + ')';
   p2rating.innerHTML = '(' + p2RatingData + ')';
   p1rate.innerHTML = playerData.winRate + '%';
@@ -57,24 +60,31 @@ async function renderHTML(playerData, idType, data, p1id, p2id) {
   p2content.innerHTML = playerData.loseCount;
 
   for (let g = 0; g < shortData.length; g++) {
-    let p1txtColor = 'wonTextColor';
+    let p1txtColor = '';
     let p1civ = '';
     let p1civName = '';
-    let p1Won = '&#10004;';
-    let p2txtColor = 'wonTextColor';
+    let p1Won = '';
+    let p2txtColor = '';
     let p2civ = '';
     let p2civName = '';
-    let p2Won = '&#10004;';
+    let p2Won = '';
     let mapID = '';
     let mapName = '';
+    let matchID = '';
+    const matchURL = 'https://www.aoe2insights.com/match/';
 
     for (let p = 0; p < shortData[g].players.length; p++) {
       mapID = shortData[g].map_type;
+      matchID = shortData[g].match_id;
       if (shortData[g].players[p][idType] == p1id) {
         p1civ = shortData[g].players[p].civ;
         if (shortData[g].players[p].won == false) {
           p1txtColor = 'lostTextColor';
           p1Won = '&#10060;';
+        }
+        if (shortData[g].players[p].won == true) {
+          p1txtColor = 'wonTextColor';
+          p1Won = '&#10004;';
         }
       }
       if (shortData[g].players[p][idType] == p2id) {
@@ -82,6 +92,10 @@ async function renderHTML(playerData, idType, data, p1id, p2id) {
         if (shortData[g].players[p].won == false) {
           p2txtColor = 'lostTextColor';
           p2Won = '&#10060;';
+        }
+        if (shortData[g].players[p].won == true) {
+          p2txtColor = 'wonTextColor';
+          p2Won = '&#10004;';
         }
       }
     }
@@ -112,9 +126,12 @@ async function renderHTML(playerData, idType, data, p1id, p2id) {
       p1civName +
       '</a>&nbsp;' +
       p1Won +
-      '</div><div class="col-2 mapname text-center">' +
+      '</div><div class="col-2 mapname text-center"><a class="text-decoration-none text-white" href="' +
+      matchURL +
+      matchID +
+      '" target="_blank">' +
       mapName +
-      '</div><div class="col-5 civname text-end ' +
+      '</a></div><div class="col-5 civname text-end ' +
       p2txtColor +
       '">' +
       p2Won +
