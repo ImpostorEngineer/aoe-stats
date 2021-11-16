@@ -1,6 +1,10 @@
 const form = document.querySelector('form');
-const p1IDinput = document.getElementById('p1id');
+// const p1IDinput = document.getElementById('p1id');
 form.addEventListener('submit', formSubmitted);
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+let p1id = urlParams.get('p1id');
+let p2id = urlParams.get('p2id');
 
 function idTypeNumber(number) {
   if (number.length > 7) {
@@ -27,7 +31,9 @@ async function getCurrentOpponentID(p1ID) {
 }
 
 window.onload = async function onPageLoad() {
-  const p1id = '247224';
+  if (!queryString) {
+    p1id = '247224';
+  }
   const p2idData = await getCurrentOpponentID(p1id);
   const p2id = await p2idData.p2ID;
   const data = await getPlayers(p1id, p2id);
@@ -35,9 +41,8 @@ window.onload = async function onPageLoad() {
 };
 
 async function formSubmitted(event) {
-  event.preventDefault();
+  // event.preventDefault();
   document.getElementById('results').style.display = 'none';
-  const p1id = p1IDinput.value;
   const p2idData = await getCurrentOpponentID(p1id);
   const p2id = p2idData.p2ID;
   document.getElementById('loading').style.display = 'inline-block';
