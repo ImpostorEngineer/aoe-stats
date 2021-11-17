@@ -34,10 +34,16 @@ window.onload = async function onPageLoad() {
   if (!queryString) {
     p1id = '247224';
   }
-  const p2idData = await getCurrentOpponentID(p1id);
-  const p2id = await p2idData.p2ID;
-  const data = await getPlayers(p1id, p2id);
-  calculateWinRate(data, p1id, p2id);
+  console.log(+p1id);
+  if (!p1id || !Number.isInteger(+p1id)) {
+    console.log('hello! error here');
+    window.alert('Need to enter Player ID from aoe2.net');
+  } else {
+    const p2idData = await getCurrentOpponentID(p1id);
+    const p2id = await p2idData.p2ID;
+    const data = await getPlayers(p1id, p2id);
+    calculateWinRate(data, p1id, p2id);
+  }
 };
 
 async function formSubmitted(event) {

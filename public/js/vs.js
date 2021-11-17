@@ -12,8 +12,13 @@ window.onload = async function onPageLoad() {
     p1id = '199325';
     p2id = '506898';
   }
-  let data = await getPlayers(p1id, p2id);
-  calculateWinRate(data, p1id, p2id);
+  if ((!p1id || !p2id) && (!Number.isInteger(+p1id) || !Number.isInteger(+p2id))) {
+    console.log('hello! error here');
+    window.alert('Need to enter Player ID from aoe2.net');
+  } else {
+    let data = await getPlayers(p1id, p2id);
+    calculateWinRate(data, p1id, p2id);
+  }
 };
 
 async function formSubmitted(event) {
