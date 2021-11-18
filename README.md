@@ -18,9 +18,7 @@ Searches `p1` game history for the last 1000 games and returns all the 1v1 games
 
 You can also create a Nightbot command for the current opponent: `/api/current/:gamecount/:p1ID`
 
-```
-$(eval r=$(urlfetch https://aoestats.vercel.app/api/current/1000/247224); t=r.playerName+' won '+r.winCount+'('+r.winRate+'%) vs '+r.opponentName+ ' won '+r.loseCount+'('+r.loseRate+'%)'; t;)
-```
+`$(eval r=$(urlfetch https://aoestats.vercel.app/api/current/1000/247224); t=r.playerName+' won '+r.winCount+'('+r.winRate+'%) vs '+r.opponentName+ ' won '+r.loseCount+'('+r.loseRate+'%)'; t;)`
 
 URL: https://aoestats.vercel.app/api/current/1000/247224
 
