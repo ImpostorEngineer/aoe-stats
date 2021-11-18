@@ -183,22 +183,3 @@ function calculateWinRate(data, p1id, p2id) {
   }
   renderHTML(finalData, idType, data, p1id, p2id);
 }
-
-// async function getAllGames(p1id, p2id) {
-//   let idType = 'profile_id';
-//   if (p1id.length > 7) {
-//     idType = 'steam_id';
-//   }
-//   const url = 'https://aoe2.net/api/player/matches?game=aoe2de&' + idType + '=' + p1id + '&count=1000';
-
-//   let data = await fetch(url, { mode: 'cors' }).then((response) => response.json());
-
-//   const playedGamesList = data.filter((g) => {
-//     for (let p = 0; p < g.players.length; p++) {
-//       if (g.players[p][idType] == p2id && g.players.length == 2) {
-//         return true;
-//       }
-//     }
-//   });
-//   return playedGamesList;
-// }
