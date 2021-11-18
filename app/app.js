@@ -160,6 +160,7 @@ router.get('/:id/:count', (req, res, next) => {
         }
       }
     }
+    finalCivs.sort((a, b) => b.count - a.count);
     return finalCivs;
   }
   getGames().then((response) => res.json(response));
