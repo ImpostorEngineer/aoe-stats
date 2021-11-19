@@ -37,7 +37,7 @@ async function fetchData(data) {
       x: historydata[i].string,
       y: historydata[i].count,
       goals: [
-        { name: 'Games Won', value: historydata[i].won, strokeHeight: 5, strokeWidth: 10, strokeColor: '#775DD0' },
+        { name: 'Games Won', value: historydata[i].won, strokeHeight: 4, strokeWidth: 8, strokeColor: '#775DD0' },
       ],
     });
   }
