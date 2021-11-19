@@ -40,12 +40,14 @@ async function renderHTML(playerData, idType, data, p1id, p2id) {
   const civList = document.getElementById('civList');
   const p1rating = document.getElementById('p1rating');
   const p2rating = document.getElementById('p2rating');
+  const pageTitle = document.getElementById('title');
   civList.innerHTML = '';
 
   let p1NameData = await getPlayerNames(p1id);
   let p2NameData = await getPlayerNames(p2id);
   let p1RatingData = await getPlayerRating(p1id);
   let p2RatingData = await getPlayerRating(p2id);
+  pageTitle.insertAdjacentHTML('beforeend', p1NameData + ' vs ' + p2NameData);
 
   const playerURL = 'https://aoe2.net/#profile-';
   p1name.innerHTML =
