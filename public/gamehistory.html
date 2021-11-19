@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="./js/gameHistory.js"></script>
     <link rel="apple-touch-icon" sizes="180x180" href="./images/favicon/apple-touch-icon.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon/favicon-16x16.png" />
@@ -14,21 +16,25 @@
       integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
       crossorigin="anonymous"
     />
-    <title>AGE OF EMPIRES II: DEFINITIVE EDITION - STATS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <title id="title">Age of Empires II: DE Game Play Statistics - </title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+    </style>
   </head>
   <body>
     <div class="container">
-      <h2>Some stats pages:</h2>
-      <ul>
-        <li><a href="./gamehistory.html">Game History Statistics</a></li>
-        <li><a href="./vs.html" rel="noopener noreferrer">Win Rate Against Another Player</a></li>
-        <li><a href="./current.html" rel="noopener noreferrer">Win Rate Against the Current Opponent</a></li>
-      </ul>
+      <div class="fs-3"><span class="fw-bold" id="playername"></span>Game Statistics for the last 1000 matches</div>
+      <div class="spinner-border text-warning" id="loading" role="status">
+        <span class="sr-only"></span>
+      </div>
+      <div id="chart"></div>
     </div>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-      crossorigin="anonymous"
-    ></script>
+    <script src="./js/getPlayerGames.js"></script>
   </body>
 </html>

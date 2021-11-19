@@ -1,0 +1,236 @@
+[
+  {
+    "id": 25,
+    "string": "Ethiopians",
+    "count": 100,
+    "won": 47
+  },
+  {
+    "id": 29,
+    "string": "Malay",
+    "count": 91,
+    "won": 34
+  },
+  {
+    "id": 14,
+    "string": "Spanish",
+    "count": 88,
+    "won": 38
+  },
+  {
+    "id": 7,
+    "string": "Byzantines",
+    "count": 65,
+    "won": 16
+  },
+  {
+    "id": 23,
+    "string": "Slavs",
+    "count": 63,
+    "won": 28
+  },
+  {
+    "id": 6,
+    "string": "Chinese",
+    "count": 52,
+    "won": 28
+  },
+  {
+    "id": 26,
+    "string": "Malians",
+    "count": 37,
+    "won": 17
+  },
+  {
+    "id": 4,
+    "string": "Teutons",
+    "count": 32,
+    "won": 18
+  },
+  {
+    "id": 39,
+    "string": "Bohemians",
+    "count": 30,
+    "won": 21
+  },
+  {
+    "id": 22,
+    "string": "Magyars",
+    "count": 28,
+    "won": 8
+  },
+  {
+    "id": 38,
+    "string": "Poles",
+    "count": 24,
+    "won": 13
+  },
+  {
+    "id": 20,
+    "string": "Indians",
+    "count": 22,
+    "won": 16
+  },
+  {
+    "id": 27,
+    "string": "Berbers",
+    "count": 21,
+    "won": 11
+  },
+  {
+    "id": 5,
+    "string": "Japanese",
+    "count": 20,
+    "won": 8
+  },
+  {
+    "id": 34,
+    "string": "Cumans",
+    "count": 19,
+    "won": 5
+  },
+  {
+    "id": 35,
+    "string": "Lithuanians",
+    "count": 19,
+    "won": 11
+  },
+  {
+    "id": 2,
+    "string": "Franks",
+    "count": 18,
+    "won": 8
+  },
+  {
+    "id": 24,
+    "string": "Portuguese",
+    "count": 18,
+    "won": 11
+  },
+  {
+    "id": 32,
+    "string": "Bulgarians",
+    "count": 18,
+    "won": 7
+  },
+  {
+    "id": 37,
+    "string": "Sicilians",
+    "count": 18,
+    "won": 2
+  },
+  {
+    "id": 8,
+    "string": "Persians",
+    "count": 17,
+    "won": 8
+  },
+  {
+    "id": 15,
+    "string": "Aztecs",
+    "count": 17,
+    "won": 7
+  },
+  {
+    "id": 13,
+    "string": "Celts",
+    "count": 16,
+    "won": 10
+  },
+  {
+    "id": 28,
+    "string": "Khmer",
+    "count": 16,
+    "won": 2
+  },
+  {
+    "id": 11,
+    "string": "Vikings",
+    "count": 15,
+    "won": 7
+  },
+  {
+    "id": 17,
+    "string": "Huns",
+    "count": 15,
+    "won": 9
+  },
+  {
+    "id": 16,
+    "string": "Mayans",
+    "count": 14,
+    "won": 5
+  },
+  {
+    "id": 9,
+    "string": "Saracens",
+    "count": 13,
+    "won": 6
+  },
+  {
+    "id": 12,
+    "string": "Mongols",
+    "count": 13,
+    "won": 5
+  },
+  {
+    "id": 10,
+    "string": "Turks",
+    "count": 12,
+    "won": 3
+  },
+  {
+    "id": 19,
+    "string": "Italians",
+    "count": 12,
+    "won": 10
+  },
+  {
+    "id": 18,
+    "string": "Koreans",
+    "count": 10,
+    "won": 2
+  },
+  {
+    "id": 1,
+    "string": "Britons",
+    "count": 9,
+    "won": 2
+  },
+  {
+    "id": 33,
+    "string": "Tatars",
+    "count": 9,
+    "won": 3
+  },
+  {
+    "id": 31,
+    "string": "Vietnamese",
+    "count": 8,
+    "won": 3
+  },
+  {
+    "id": 3,
+    "string": "Goths",
+    "count": 6,
+    "won": 0
+  },
+  {
+    "id": 21,
+    "string": "Incas",
+    "count": 6,
+    "won": 4
+  },
+  {
+    "id": 36,
+    "string": "Burgundians",
+    "count": 5,
+    "won": 3
+  },
+  {
+    "id": 30,
+    "string": "Burmese",
+    "count": 4,
+    "won": 1
+  }
+]
