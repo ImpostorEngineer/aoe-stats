@@ -34,7 +34,6 @@ window.onload = async function onPageLoad() {
   if (!queryString) {
     p1id = '247224';
   }
-  console.log(+p1id);
   if (!p1id || !Number.isInteger(+p1id)) {
     console.log('hello! error here');
     window.alert('Need to enter Player ID from aoe2.net');
