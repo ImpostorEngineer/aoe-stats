@@ -141,11 +141,14 @@ router.get('/:id/:count', (req, res, next) => {
       playedGames.push(playerList);
       playedCivs.push(playerList[0].civ);
     }
-
     playedCivs = [...new Set(playedCivs)];
     playedCivs.sort((a, b) => a - b);
-    for (let c = 0; c < playedCivs.length; c++) {
-      finalCivs.push(civNames.civ[playedCivs[c] - 1]);
+
+    for (let c = 0; c < civNames.civ.length; c++) {
+      for (let k = 0; k < playedCivs.length; k++)
+        if (civNames.civ[c].id == playedCivs[k] && playedCivs[k] != null) {
+          finalCivs.push(civNames.civ[c]);
+        }
       finalCivs[c].count = 0;
       finalCivs[c].won = 0;
     }
