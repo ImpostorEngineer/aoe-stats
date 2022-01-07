@@ -4,6 +4,7 @@
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 let p1id = urlParams.get('p1id');
+let games = urlParams.get('games');
 
 window.onload = async function onPageLoad() {
   if (!queryString) {
@@ -21,7 +22,11 @@ window.onload = async function onPageLoad() {
 };
 
 async function getPlayerHistory(p1id) {
-  const dataURL = './api/' + p1id + '/' + '1000';
+  if (!games) {
+    games = 1000;
+  }
+  document.getElementById('games').innerHTML = games;
+  const dataURL = './api/' + p1id + '/' + games;
   const playerData = await fetch(dataURL, { mode: 'same-origin' }).then((response) => response.json());
   return playerData;
 }
