@@ -1,8 +1,6 @@
 async function getPlayerNames(ID) {
   let idType = 'profile_id';
-  if (ID.length > 7) {
-    idType = 'steam_id';
-  }
+
   const profileURL = 'https://aoe2.net/api/player/lastmatch?game=aoe2de&' + idType + '=' + ID;
   let data = await fetch(profileURL, { mode: 'cors' }).then((response) => response.json());
   let playerName = data.name;
@@ -11,9 +9,7 @@ async function getPlayerNames(ID) {
 
 async function getPlayerRating(ID) {
   let idType = 'profile_id';
-  if (ID.length > 7) {
-    idType = 'steam_id';
-  }
+
   const profileURL =
     'https://aoe2.net/api/player/ratinghistory?game=aoe2de&leaderboard_id=3&count=1&' + idType + '=' + ID;
   let data = await fetch(profileURL, { mode: 'cors' }).then((response) => response.json());
@@ -154,9 +150,6 @@ async function renderHTML(playerData, idType, data, p1id, p2id) {
 
 function calculateWinRate(data, p1id, p2id) {
   let idType = 'profile_id';
-  if (p1id.length > 7) {
-    idType = 'steam_id';
-  }
 
   let finalData = {};
   finalData.loseCount = 0;

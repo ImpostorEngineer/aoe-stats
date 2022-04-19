@@ -22,13 +22,8 @@ async function getAllGames(p1ID, p2ID) {
 }
 
 function idTypeNumber(number) {
-  if (number.length > 7) {
-    idType = 'steam_id';
-    gamerID = 'steam_id=' + number;
-  } else {
-    idType = 'profile_id';
-    gamerID = 'profile_id=' + number;
-  }
+  idType = 'profile_id';
+  gamerID = 'profile_id=' + number;
   return { idType, gamerID };
 }
 
@@ -48,9 +43,7 @@ async function getCurrentOpponentID(p1ID) {
 
 async function getPlayerNames(ID) {
   let idType = 'profile_id';
-  if (ID.length > 7) {
-    idType = 'steam_id';
-  }
+
   const profileURL = 'https://aoe2.net/api/player/lastmatch?game=aoe2de&' + idType + '=' + ID;
   let data = await axios.get(profileURL);
   let playerName = data.data.name;
@@ -59,9 +52,7 @@ async function getPlayerNames(ID) {
 
 async function getPlayerRating(ID) {
   let idType = 'profile_id';
-  if (ID.length > 7) {
-    idType = 'steam_id';
-  }
+
   const profileURL =
     'https://aoe2.net/api/player/ratinghistory?game=aoe2de&leaderboard_id=3&count=1&' + idType + '=' + ID;
   let data = await axios.get(profileURL);
@@ -76,11 +67,8 @@ async function getPlayerRating(ID) {
 
 async function calculateWinRate(data, p1id, p2id) {
   let idType = 'profile_id';
-  if (p1id.length > 7) {
-    idType = 'steam_id';
-  }
-
   let finalData = {};
+
   finalData.loseCount = 0;
   finalData.winCount = 0;
   finalData.playedCount = data.length;
@@ -115,13 +103,9 @@ async function calculateWinRate(data, p1id, p2id) {
 router.get('/:id/:count', (req, res, next) => {
   const count = req.params.count;
   const id = req.params.id;
-  if (id.length > 7) {
-    idType = 'steam_id';
-    gamerID = 'steam_id=' + id;
-  } else {
-    idType = 'profile_id';
-    gamerID = 'profile_id=' + id;
-  }
+
+  const idType = 'profile_id';
+  const gamerID = 'profile_id=' + id;
 
   async function getGames() {
     let civData = await axios.get('https://aoe2.net/api/strings?game=aoe2de&language=en');

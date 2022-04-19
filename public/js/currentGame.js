@@ -7,13 +7,8 @@ let p1id = urlParams.get('p1id');
 let p2id = urlParams.get('p2id');
 
 function idTypeNumber(number) {
-  if (number.length > 7) {
-    idType = 'steam_id';
-    gamerID = 'steam_id=' + number;
-  } else {
-    idType = 'profile_id';
-    gamerID = 'profile_id=' + number;
-  }
+  idType = 'profile_id';
+  gamerID = 'profile_id=' + number;
   return { idType, gamerID };
 }
 
