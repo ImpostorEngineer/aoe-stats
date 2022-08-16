@@ -2,15 +2,22 @@ const express = require('express');
 const router = express.Router();
 const axios = require('axios');
 
-async function getAllGames(p1ID, p2ID) {
-  const playerGamerID = idTypeNumber(p1ID);
-  const opponentGamerID = idTypeNumber(p2ID);
+function idTypeNumber(number) {
+  idType = 'profile_id';
+  gamerID = 'profile_id=' + number;
+  return { idType, gamerID };
+}
 
-  const url = 'https://aoe2.net/api/player/matches?game=aoe2de&' + playerGamerID.gamerID + '&count=1000';
-
+async function getAllGames(ID, gameCount) {
+  const playerGamerID = idTypeNumber(ID);
+  const url = 'https://aoe2.net/api/player/matches?game=aoe2de&' + playerGamerID.gamerID + '&count=' + gameCount;
   let response = await axios.get(url);
   let data = response.data;
+  return data;
+}
 
+async function getOpponentGames(p1ID, p2ID, gameCount) {
+  let data = getAllGames(p1ID, gameCount);
   const playedGamesList = data.filter((g) => {
     for (let p = 0; p < g.players.length; p++) {
       if (g.players[p][opponentGamerID.idType] == p2ID && g.players.length == 2) {
@@ -19,12 +26,6 @@ async function getAllGames(p1ID, p2ID) {
     }
   });
   return playedGamesList;
-}
-
-function idTypeNumber(number) {
-  idType = 'profile_id';
-  gamerID = 'profile_id=' + number;
-  return { idType, gamerID };
 }
 
 async function getCurrentOpponentID(p1ID) {
@@ -43,7 +44,6 @@ async function getCurrentOpponentID(p1ID) {
 
 async function getPlayerNames(ID) {
   let idType = 'profile_id';
-
   const profileURL = 'https://aoe2.net/api/player/lastmatch?game=aoe2de&' + idType + '=' + ID;
   let data = await axios.get(profileURL);
   let playerName = data.data.name;
@@ -100,72 +100,74 @@ async function calculateWinRate(data, p1id, p2id) {
   return finalData;
 }
 
-router.get('/:id/:count', (req, res, next) => {
-  const count = req.params.count;
-  const id = req.params.id;
+async function getGames(data) {
+  let civData = await axios.get('https://aoe2.net/api/strings?game=aoe2de&language=en');
+  const civNames = civData.data;
 
-  const idType = 'profile_id';
-  const gamerID = 'profile_id=' + id;
+  let playedGames = [];
+  let playedCivs = [];
+  let finalCivs = [];
 
-  async function getGames() {
-    let civData = await axios.get('https://aoe2.net/api/strings?game=aoe2de&language=en');
-    const civNames = civData.data;
+  for (let i = 0; i < data.length; i++) {
+    const playerList = data[i].players.filter((player) => player[idType] == id);
+    playedGames.push(playerList);
+    playedCivs.push(playerList[0].civ);
+  }
+  playedCivs = [...new Set(playedCivs)];
+  playedCivs.sort((a, b) => a - b);
 
-    const url = 'https://aoe2.net/api/player/matches?game=aoe2de&' + gamerID + '&count=' + count;
+  for (let c = 0; c < civNames.civ.length; c++) {
+    for (let k = 0; k < playedCivs.length; k++)
+      if (civNames.civ[c].id == playedCivs[k] && playedCivs[k] != null) {
+        finalCivs.push({ ...civNames.civ[c], count: 0, won: 0 });
+      }
+  }
 
-    let response = await axios.get(url);
-    let data = response.data;
-
-    let playedGames = [];
-    let playedCivs = [];
-    let finalCivs = [];
-
-    for (let i = 0; i < data.length; i++) {
-      const playerList = data[i].players.filter((player) => player[idType] == id);
-      playedGames.push(playerList);
-      playedCivs.push(playerList[0].civ);
-    }
-    playedCivs = [...new Set(playedCivs)];
-    playedCivs.sort((a, b) => a - b);
-
-    for (let c = 0; c < civNames.civ.length; c++) {
-      for (let k = 0; k < playedCivs.length; k++)
-        if (civNames.civ[c].id == playedCivs[k] && playedCivs[k] != null) {
-          finalCivs.push({ ...civNames.civ[c], count: 0, won: 0 });
-        }
-    }
-
-    for (let t = 0; t < playedGames.length; t++) {
-      for (let p = 0; p < finalCivs.length; p++) {
-        if (playedGames[t][0].civ == finalCivs[p].id) {
-          finalCivs[p].count += 1;
-          if (playedGames[t][0].won == true) {
-            finalCivs[p].won += 1;
-          }
+  for (let t = 0; t < playedGames.length; t++) {
+    for (let p = 0; p < finalCivs.length; p++) {
+      if (playedGames[t][0].civ == finalCivs[p].id) {
+        finalCivs[p].count += 1;
+        if (playedGames[t][0].won == true) {
+          finalCivs[p].won += 1;
         }
       }
     }
-    finalCivs.sort((a, b) => b.count - a.count);
-    return finalCivs;
   }
-  getGames().then((response) => res.json(response));
+  finalCivs.sort((a, b) => b.count - a.count);
+  return finalCivs;
+}
+
+router.get('/:id/:count', (req, res, next) => {
+  const gameCount = req.params.count;
+  const id = req.params.id;
+  let data = getAllGames(id, gameCount);
+  getGames(data).then((response) => res.json(response));
+});
+
+router.get('/vs1/:id/:count', (req, res, next) => {
+  const gameCount = req.params.count;
+  const id = req.params.id;
+  let data = getAllGames(id, gameCount);
+  data = data.filter((games) => games.num_players == 2);
+  getGames(data).then((response) => res.json(response));
 });
 
 router.get('/vs/:id/:opponent', (req, res, next) => {
   const p2ID = req.params.opponent;
   const p1ID = req.params.id;
-  getAllGames(p1ID, p2ID).then((response) => res.json(response));
+  getOpponentGames(p1ID, p2ID, 1000).then((response) => res.json(response));
 });
 
 router.get('/current/:count/:id', (req, res, next) => {
   const p1ID = req.params.id;
+  const count = req.params.count;
   async function getCurrentGame(p1ID) {
     const opponentID = await getCurrentOpponentID(p1ID);
-    let data = await getAllGames(p1ID, opponentID.p2ID);
+    let data = await getOpponentGames(p1ID, opponentID.p2ID);
     let finalData = await calculateWinRate(data, p1ID, opponentID.p2ID);
     return finalData;
   }
-  getCurrentGame(p1ID).then((response) => res.json(response));
+  getCurrentGame(p1ID, count).then((response) => res.json(response));
 });
 
 module.exports = router;
