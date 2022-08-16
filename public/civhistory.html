@@ -23,15 +23,54 @@
         margin: 0;
         padding: 0;
       }
+      * {
+        font-family: 'Inter', sans-serif;
+      }
+      .mapname {
+        line-height: 50px;
+        height: 50px;
+        vertical-align: middle;
+        padding: 0;
+        font-weight: bold;
+      }
+      #results {
+        display: none;
+      }
+      #civList .col-5,
+      #civList .col-2,
+      #civList .col-4 {
+        padding: 0 !important;
+      }
+      #p1name > a:hover,
+      #p2name > a:hover,
+      .mapname > a:hover {
+        color: #0dba00 !important;
+      }
+      .container {
+        background: #292e35;
+        color: #fff;
+        text-shadow: 1px 1px 1px #333;
+        border: 0px;
+        border-radius: 10px;
+        box-shadow: 5px 5px 5px #ccc;
+        padding-bottom: 15px;
+      }
+      .wonTextColor {
+        color: #0dba00;
+      }
+      .lostTextColor {
+        color: #e20000;
+        text-decoration: line-through;
+      }
     </style>
   </head>
   <body>
-    <div class="container">
-      <div class="fs-3">
+    <div class="container" style="max-width: 700px">
+      <div class="fs-5 p-3">
         <span class="fw-bold" id="playername"></span><span class="fw-bold" id="civname"></span>Civilization Statistics
         for the last <span id="games" class="fw-bold"></span> matches
       </div>
-      <div id="list"></div>
+      <div id="civList"></div>
     </div>
     <script src="./js/getPlayerGames.js"></script>
     <script src="./js/civHistory.js"></script>
