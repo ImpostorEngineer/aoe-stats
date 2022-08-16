@@ -17,7 +17,8 @@ async function getAllGames(ID, gameCount) {
 }
 
 async function getOpponentGames(p1ID, p2ID, gameCount) {
-  let data = getAllGames(p1ID, gameCount);
+  let data = await getAllGames(p1ID, gameCount);
+  const opponentGamerID = idTypeNumber(p2ID);
   const playedGamesList = data.filter((g) => {
     for (let p = 0; p < g.players.length; p++) {
       if (g.players[p][opponentGamerID.idType] == p2ID && g.players.length == 2) {
