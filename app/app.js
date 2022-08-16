@@ -142,6 +142,13 @@ router.get('/:id/:count', async (req, res, next) => {
   const gameCount = req.params.count;
   const id = req.params.id;
   let data = await getAllGames(id, gameCount);
+  res.json(data);
+});
+
+router.get('/all/:id/:count', async (req, res, next) => {
+  const gameCount = req.params.count;
+  const id = req.params.id;
+  let data = await getAllGames(id, gameCount);
   getGames(data, id).then((response) => res.json(response));
 });
 

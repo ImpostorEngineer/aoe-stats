@@ -10,7 +10,7 @@ async function getPlayerHistory(p1id) {
   if (!games) {
     games = 1000;
   }
-  const dataURL = './api/' + p1id + '/' + games;
+  const dataURL = './api/all/' + p1id + '/' + games;
   const playerData = await fetch(dataURL, { mode: 'same-origin' }).then((response) => response.json());
   return playerData;
 }

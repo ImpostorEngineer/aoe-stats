@@ -15,7 +15,7 @@ async function getSingleHistory(p1id) {
   return playerData;
 }
 
-async function fetchData(data) {
+async function fetchData(data, p1id) {
   document.getElementById('loading').style.display = 'inline-block';
 
   let historydata = await data;
@@ -25,6 +25,7 @@ async function fetchData(data) {
     gamesPlayedData.push({
       x: historydata[i].string,
       y: historydata[i].count,
+      link: '/civhistory.html?civid=' + historydata[i].id + '&p1id=' + p1id,
       goals: [
         { name: 'Games Won', value: historydata[i].won, strokeHeight: 4, strokeWidth: 8, strokeColor: '#775DD0' },
       ],
@@ -41,6 +42,11 @@ async function fetchData(data) {
       fontFamily: 'Roboto, Arial, sans-serif',
       height: 350,
       type: 'bar',
+      events: {
+        dataPointSelection: function (event, chartContext, obj) {
+          return (document.location.href = obj.w.config.series[obj.seriesIndex].data[obj.dataPointIndex].link);
+        },
+      },
     },
 
     plotOptions: {
@@ -76,7 +82,7 @@ async function onPageLoad() {
     window.alert('Need to enter Player ID from aoe2.net');
   } else {
     const data = await getSingleHistory(p1id);
-    fetchData(data);
+    fetchData(data, p1id);
     let gameCount = 0;
     for (let i = 0; i < data.length; i++) {
       gameCount += data[i].count;
