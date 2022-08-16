@@ -100,7 +100,7 @@ async function calculateWinRate(data, p1id, p2id) {
   return finalData;
 }
 
-async function getGames(data) {
+async function getGames(data, id) {
   let civData = await axios.get('https://aoe2.net/api/strings?game=aoe2de&language=en');
   const civNames = civData.data;
 
@@ -137,19 +137,19 @@ async function getGames(data) {
   return finalCivs;
 }
 
-router.get('/:id/:count', (req, res, next) => {
+router.get('/:id/:count', async (req, res, next) => {
   const gameCount = req.params.count;
   const id = req.params.id;
-  let data = getAllGames(id, gameCount);
-  getGames(data).then((response) => res.json(response));
+  let data = await getAllGames(id, gameCount);
+  getGames(data, id).then((response) => res.json(response));
 });
 
-router.get('/vs1/:id/:count', (req, res, next) => {
+router.get('/vs1/:id/:count', async (req, res, next) => {
   const gameCount = req.params.count;
   const id = req.params.id;
-  let data = getAllGames(id, gameCount);
-  data = data.filter((games) => games.num_players == 2);
-  getGames(data).then((response) => res.json(response));
+  const data = await getAllGames(id, gameCount);
+  const finalData = data.filter((games) => games.num_players == 2);
+  getGames(finalData, id).then((response) => res.json(response));
 });
 
 router.get('/vs/:id/:opponent', (req, res, next) => {

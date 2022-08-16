@@ -6,11 +6,11 @@ const urlParams = new URLSearchParams(queryString);
 const p1id = urlParams.get('p1id');
 let games = urlParams.get('games');
 
-async function getPlayerHistory(p1id) {
+async function getSingleHistory(p1id) {
   if (!games) {
     games = 1000;
   }
-  const dataURL = './api/' + p1id + '/' + games;
+  const dataURL = './api/vs1/' + p1id + '/' + games;
   const playerData = await fetch(dataURL, { mode: 'same-origin' }).then((response) => response.json());
   return playerData;
 }
@@ -75,7 +75,7 @@ async function onPageLoad() {
     console.log('hello! error here');
     window.alert('Need to enter Player ID from aoe2.net');
   } else {
-    const data = await getPlayerHistory(p1id);
+    const data = await getSingleHistory(p1id);
     fetchData(data);
     let gameCount = 0;
     for (let i = 0; i < data.length; i++) {
