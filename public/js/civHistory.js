@@ -40,36 +40,19 @@ async function renderHTML(data, p1id) {
   const map_url = 'https://aoe2.net/api/strings?game=aoe2de&language=en';
   const mapData = await fetch(map_url, { mode: 'cors' }).then((response) => response.json());
   const shortData = data;
-
-  //   const p1name = document.getElementById('p1name');
-  //   const p2name = document.getElementById('p2name');
-  //   const p1rate = document.getElementById('p1rate');
-  //   const p2rate = document.getElementById('p2rate');
-  //   const p1content = document.getElementById('p1content');
-  //   const p2content = document.getElementById('p2content');
-  //   const p1rating = document.getElementById('p1rating');
-  //   const p2rating = document.getElementById('p2rating');
-  //   const pageTitle = document.getElementById('title');
   const civList = document.getElementById('civList');
   civList.innerHTML = '';
-
   const playerURL = 'https://aoe2.net/#profile-';
-  //   p1name.innerHTML =
-  //     '<a class="text-decoration-none text-white" href="' + playerURL + p1id + '" target="_blank">' + p1NameData + '</a>';
-  //   p2name.innerHTML =
-  //     '<a class="text-decoration-none text-white" href="' + playerURL + p2id + '" target="_blank">' + p2NameData + '</a>';
-  //   p1rating.innerHTML = '(' + p1RatingData + ')';
-  //   p2rating.innerHTML = '(' + p2RatingData + ')';
-  //   p1rate.innerHTML = playerData.winRate + '%';
-  //   p2rate.innerHTML = playerData.loseRate + '%';
-  //   p1content.innerHTML = playerData.winCount;
-  //   p2content.innerHTML = playerData.loseCount;
 
   for (let g = 0; g < shortData.length; g++) {
+    let p1rating = 0;
     let p1txtColor = '';
     let p1civ = '';
     let p1civName = '';
     let p1Won = '';
+    let p2id = 0;
+    let p2rating = 0;
+    let p2link = '';
     let p2txtColor = '';
     let p2civ = '';
     let p2civName = '';
@@ -83,6 +66,7 @@ async function renderHTML(data, p1id) {
       mapID = shortData[g].map_type;
       matchID = shortData[g].match_id;
       if (shortData[g].players[p]['profile_id'] == p1id) {
+        p1rating = shortData[g].players[p].rating;
         p1civ = shortData[g].players[p].civ;
         if (shortData[g].players[p].won == false) {
           p1txtColor = 'lostTextColor';
@@ -94,6 +78,9 @@ async function renderHTML(data, p1id) {
         }
       }
       if (shortData[g].players[p]['profile_id'] != p1id) {
+        p2rating = shortData[g].players[p].rating;
+        p2id = shortData[g].players[p].profile_id;
+        p2link = playerURL + p2id;
         p2civ = shortData[g].players[p].civ;
         if (shortData[g].players[p].won == false) {
           p2txtColor = 'lostTextColor';
@@ -120,7 +107,7 @@ async function renderHTML(data, p1id) {
     }
 
     civList.innerHTML +=
-      '<div class="row m-auto"><div class="col-4 civname text-start ' +
+      '<div class="row m-auto"><div class="civname text-start ' +
       p1txtColor +
       '"><img src="../civ_crests/' +
       p1civName +
@@ -132,12 +119,18 @@ async function renderHTML(data, p1id) {
       p1civName +
       '</a>&nbsp;' +
       p1Won +
-      '</div><div class="col-4 mapname text-center"><a class="text-decoration-none text-white" href="' +
+      '</div><div class="text-center rating">' +
+      p1rating +
+      '</div><div class="mapname text-center"><a class="text-decoration-none text-white" href="' +
       matchURL +
       matchID +
       '" target="_blank">' +
       mapName +
-      '</a></div><div class="col-4 civname text-end ' +
+      '</a></div><div class="text-center rating"><a class="text-decoration-none text-white" href="' +
+      p2link +
+      '" target="_blank">' +
+      p2rating +
+      '</a></div><div class="civname text-end ' +
       p2txtColor +
       '">' +
       p2Won +

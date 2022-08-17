@@ -26,7 +26,8 @@
       * {
         font-family: 'Inter', sans-serif;
       }
-      .mapname {
+      .mapname,
+      .rating {
         line-height: 50px;
         height: 50px;
         vertical-align: middle;
@@ -36,11 +37,24 @@
       #results {
         display: none;
       }
-      #civList .col-5,
-      #civList .col-2,
-      #civList .col-4 {
-        padding: 0 !important;
+      .row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
       }
+      .civname {
+        width: 190px;
+        padding: 0;
+      }
+      .rating {
+        width: 100px;
+      }
+      .mapname {
+        width: 170px;
+      }
+
+      .rating > a:hover,
       #p1name > a:hover,
       #p2name > a:hover,
       .mapname > a:hover {
@@ -53,24 +67,30 @@
         border: 0px;
         border-radius: 10px;
         box-shadow: 5px 5px 5px #ccc;
-        padding-bottom: 15px;
+        margin-bottom: 15px;
       }
       .wonTextColor {
         color: #0dba00;
+        font-weight: bold;
       }
       .lostTextColor {
         color: #e20000;
         text-decoration: line-through;
+        font-weight: bold;
+      }
+      #civList {
+        align-content: space-around;
       }
     </style>
   </head>
   <body>
-    <div class="container" style="max-width: 700px">
+    <div class="container" style="max-width: 800px">
       <div class="fs-5 p-3">
         <span class="fw-bold" id="playername"></span><span class="fw-bold" id="civname"></span>Civilization Statistics
         for the last <span id="games" class="fw-bold"></span> matches
       </div>
       <div id="civList"></div>
+      <br />
     </div>
     <script src="./js/getPlayerGames.js"></script>
     <script src="./js/civHistory.js"></script>
