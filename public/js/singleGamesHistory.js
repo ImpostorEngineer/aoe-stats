@@ -25,6 +25,7 @@ async function fetchData(data, p1id) {
     gamesPlayedData.push({
       x: historydata[i].string,
       y: historydata[i].count,
+      z: Math.round((historydata[i].won / historydata[i].count) * 100) + '%',
       link: '/civhistory.html?civid=' + historydata[i].id + '&p1id=' + p1id,
       goals: [
         { name: 'Games Won', value: historydata[i].won, strokeHeight: 4, strokeWidth: 8, strokeColor: '#775DD0' },
@@ -48,7 +49,6 @@ async function fetchData(data, p1id) {
         },
       },
     },
-
     plotOptions: {
       bar: {
         columnWidth: '60%',
