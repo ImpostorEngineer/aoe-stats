@@ -25,6 +25,7 @@ async function fetchData(data) {
     gamesPlayedData.push({
       x: historydata[i].string,
       y: historydata[i].count,
+      z: Math.round((historydata[i].won / historydata[i].count) * 100) + '%',
       goals: [
         { name: 'Games Won', value: historydata[i].won, strokeHeight: 4, strokeWidth: 8, strokeColor: '#775DD0' },
       ],
