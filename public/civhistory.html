@@ -48,7 +48,7 @@
         padding: 0;
       }
       .rating {
-        width: 100px;
+        width: 80px;
       }
       .mapname {
         width: 170px;
@@ -58,7 +58,8 @@
       #p1name > a:hover,
       #p2name > a:hover,
       .mapname > a:hover {
-        color: #0dba00 !important;
+        color: #ffe600 !important;
+        text-shadow: 1px 1px #000;
       }
       .container {
         background: #292e35;
@@ -81,13 +82,17 @@
       #civList {
         align-content: space-around;
       }
+      #playername > a:hover {
+        color: #ffe600 !important;
+        text-shadow: 1px 1px #000;
+      }
     </style>
   </head>
   <body>
-    <div class="container" style="max-width: 800px">
+    <div class="container" style="max-width: 740px">
       <div class="fs-5 p-3">
         <span class="fw-bold" id="playername"></span><span class="fw-bold" id="civname"></span>Civilization Statistics
-        for the last <span id="games" class="fw-bold"></span> matches
+        for the last<span id="games" class="fw-bold"></span> matches
       </div>
       <div id="civList"></div>
       <br />

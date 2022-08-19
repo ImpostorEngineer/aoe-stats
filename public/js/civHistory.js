@@ -170,12 +170,13 @@ async function onPageLoad() {
         }
       }
     }
-    document.getElementById('games').innerHTML = finalData.length;
+    document.getElementById('games').innerHTML = ' ' + finalData.length;
 
     renderHTML(finalData, p1id);
   }
   const playerName = await getPlayerNames(p1id);
-  const playerLink = '<a href="singlegames.html?p1id=' + p1id + '">' + playerName + '</a>: ';
+  const playerLink =
+    '<a class="text-decoration-none text-white" href="singlegames.html?p1id=' + p1id + '">' + playerName + '</a>: ';
   document.getElementById('playername').insertAdjacentHTML('afterbegin', playerLink);
   document.getElementById('civname').insertAdjacentHTML('afterbegin', civName + ' ');
 }

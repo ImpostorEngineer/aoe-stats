@@ -15,7 +15,7 @@ async function getSingleHistory(p1id) {
   return playerData;
 }
 
-async function fetchData(data, p1id) {
+async function makeChart(data, p1id) {
   document.getElementById('loading').style.display = 'inline-block';
 
   let historydata = await data;
@@ -82,12 +82,38 @@ async function onPageLoad() {
     window.alert('Need to enter Player ID from aoe2.net');
   } else {
     const data = await getSingleHistory(p1id);
-    fetchData(data, p1id);
+    makeChart(data, p1id);
+    let sortedData = [];
+
+    for (let g = 0; g < data.length; g++) {
+      sortedData.push({
+        name: data[g].string,
+        played: data[g].count,
+        won: data[g].won,
+        rate: Math.round((data[g].won / data[g].count) * 100),
+      });
+    }
+    sortedData = sortedData.sort((a, b) => b.rate - a.rate);
+    const statsTable = document.getElementById('stats-table');
+    for (let g = 0; g < sortedData.length; g++) {
+      const stat =
+        '<div class="row"><div class="civname">' +
+        sortedData[g].name +
+        '</div><div class="played">' +
+        sortedData[g].played +
+        '</div><div class="won">' +
+        sortedData[g].won +
+        '</div><div class="rate">' +
+        sortedData[g].rate +
+        '%</div></div>';
+      statsTable.insertAdjacentHTML('beforeend', stat);
+    }
+
     let gameCount = 0;
     for (let i = 0; i < data.length; i++) {
       gameCount += data[i].count;
     }
-    document.getElementById('games').innerHTML = gameCount;
+    document.getElementById('games').innerHTML = ' ' + gameCount;
   }
   const playerName = await getPlayerNames(p1id);
   document.getElementById('playername').insertAdjacentHTML('afterbegin', playerName + ': ');

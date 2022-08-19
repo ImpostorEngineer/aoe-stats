@@ -15,7 +15,7 @@ async function getPlayerHistory(p1id) {
   return playerData;
 }
 
-async function fetchData(data) {
+async function makeChart(data) {
   document.getElementById('loading').style.display = 'inline-block';
 
   let historydata = await data;
@@ -77,7 +77,7 @@ async function onPageLoad() {
     window.alert('Need to enter Player ID from aoe2.net');
   } else {
     const data = await getPlayerHistory(p1id);
-    fetchData(data);
+    makeChart(data);
     let gameCount = 0;
     for (let i = 0; i < data.length; i++) {
       gameCount += data[i].count;

@@ -24,18 +24,57 @@
         margin: 0;
         padding: 0;
       }
+      #games {
+        font-weight: bold;
+      }
+      #stats-table {
+        width: 500px;
+        margin-left: 20px;
+      }
+      .heading {
+        font-weight: bold;
+        font-size: 18px;
+      }
+      .row {
+        padding: 2px;
+        width: 354px;
+        display: flex;
+        flex-wrap: nowrap;
+        align-content: center;
+        align-items: center;
+        gap: 10px;
+      }
+      .row:hover {
+        background-color: #ccc;
+      }
+      .civname {
+        width: 120px;
+      }
+      .played,
+      .won,
+      .rate {
+        width: 70px;
+      }
     </style>
   </head>
   <body>
     <div class="container">
-      <div class="fs-3"
-        ><span class="fw-bold" id="playername"></span>Random 1v1 Game Statistics for the last
-        <span id="games"></span> matches</div
+      <div class="fs-3">
+        <span class="fw-bold" id="playername"></span>Random 1v1 Game Statistics for the last<span id="games"></span>
+        matches</div
       >
       <div class="spinner-border text-warning" id="loading" role="status">
         <span class="sr-only"></span>
       </div>
       <div id="chart"></div>
+      <div id="stats-table">
+        <div class="row heading">
+          <div class="civname">Civilization</div>
+          <div class="played">Played</div>
+          <div class="won">Won</div>
+          <div class="rate">%</div>
+        </div>
+      </div>
     </div>
     <script src="./js/getPlayerGames.js"></script>
     <script src="./js/singleGamesHistory.js"></script>
