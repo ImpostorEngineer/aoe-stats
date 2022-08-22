@@ -1,10 +1,22 @@
-// const form = document.querySelector('form');
-// const p1IDinput = document.getElementById('p1id');
-// form.addEventListener('submit', formSubmitted);
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const p1id = urlParams.get('p1id');
 let games = urlParams.get('games');
+
+function convertData(data) {
+  let sortedData = [];
+
+  for (let g = 0; g < data.length; g++) {
+    sortedData.push({
+      id: data[g].id,
+      name: data[g].string,
+      played: data[g].count,
+      won: data[g].won,
+      rate: Math.round((data[g].won / data[g].count) * 100),
+    });
+  }
+  return sortedData;
+}
 
 async function getSingleHistory(p1id) {
   if (!games) {
@@ -12,7 +24,8 @@ async function getSingleHistory(p1id) {
   }
   const dataURL = './api/vs1/' + p1id + '/' + games;
   const playerData = await fetch(dataURL, { mode: 'same-origin' }).then((response) => response.json());
-  return playerData;
+  const data = convertData(playerData);
+  return data;
 }
 
 async function makeChart(data, p1id) {
@@ -23,9 +36,9 @@ async function makeChart(data, p1id) {
 
   for (let i = 0; i < historydata.length; i++) {
     gamesPlayedData.push({
-      x: historydata[i].string,
-      y: historydata[i].count,
-      z: Math.round((historydata[i].won / historydata[i].count) * 100) + '%',
+      x: historydata[i].name,
+      y: historydata[i].played,
+      z: historydata[i].rate + '%',
       link: '/civhistory.html?civid=' + historydata[i].id + '&p1id=' + p1id,
       goals: [
         { name: 'Games Won', value: historydata[i].won, strokeHeight: 4, strokeWidth: 8, strokeColor: '#775DD0' },
@@ -67,7 +80,7 @@ async function makeChart(data, p1id) {
       },
     },
   };
-
+  document.getElementById('chart').innerHTML = '';
   var chart = new ApexCharts(document.querySelector('#chart'), options);
   document.getElementById('loading').style.display = 'none';
   chart.render();
@@ -88,9 +101,13 @@ function renderHTML(data) {
 
   for (let g = 0; g < data.length; g++) {
     const stat =
-      '<div class="row"><div class="civname">' +
+      '<div class="row"><div class="civname"><a href="/civhistory.html?civid=' +
+      data[g].id +
+      '&p1id=' +
+      p1id +
+      '">' +
       data[g].name +
-      '</div><div class="played">' +
+      '</a></div><div class="played">' +
       data[g].played +
       '</div><div class="won">' +
       data[g].won +
@@ -99,20 +116,6 @@ function renderHTML(data) {
       '%</div></div>';
     statsTable.insertAdjacentHTML('beforeend', stat);
   }
-}
-
-function convertData(data) {
-  let sortedData = [];
-
-  for (let g = 0; g < data.length; g++) {
-    sortedData.push({
-      name: data[g].string,
-      played: data[g].count,
-      won: data[g].won,
-      rate: Math.round((data[g].won / data[g].count) * 100),
-    });
-  }
-  return sortedData;
 }
 
 async function onPageLoad() {
@@ -124,13 +127,12 @@ async function onPageLoad() {
     window.alert('Need to enter Player ID from aoe2.net');
   } else {
     const data = await getSingleHistory(p1id);
-    makeChart(data, p1id);
-    let sortedData = convertData(data);
-    sortedData = sortList(sortedData, 'rate');
+    const sortedData = sortList(data, 'played');
+    makeChart(sortedData, p1id);
     renderHTML(sortedData);
     let gameCount = 0;
     for (let i = 0; i < data.length; i++) {
-      gameCount += data[i].count;
+      gameCount += data[i].played;
     }
     document.getElementById('games').innerHTML = ' ' + gameCount;
   }
@@ -140,8 +142,8 @@ async function onPageLoad() {
 
 async function sortTable(sortItem) {
   const data = await getSingleHistory(p1id);
-  let convertedData = convertData(data);
-  let sortedData = sortList(convertedData, sortItem);
+  let sortedData = sortList(data, sortItem);
+  makeChart(sortedData, p1id);
   renderHTML(sortedData);
 }
 
