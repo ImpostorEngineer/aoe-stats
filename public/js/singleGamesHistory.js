@@ -73,6 +73,48 @@ async function makeChart(data, p1id) {
   chart.render();
 }
 
+function sortList(data, sortItem) {
+  if (sortItem == 'name') {
+    return data.sort((a, b) => a.name.localeCompare(b.name));
+  }
+  return data.sort((a, b) => b[sortItem] - a[sortItem]);
+}
+
+function renderHTML(data) {
+  const statsTable = document.getElementById('stats-table');
+  const headerRow =
+    '<div class="row heading"><div class="civname"><a href="#" onclick="sortTable(\'name\')">Civilization</a></div><div class="played"><a href="#" onclick="sortTable(\'played\')">Played</a></div><div class="won"><a href="#" onclick="sortTable(\'won\')">Won</a></div><div class="rate"><a href="#" onclick="sortTable(\'rate\')">%</a></div></div>';
+  statsTable.innerHTML = headerRow;
+
+  for (let g = 0; g < data.length; g++) {
+    const stat =
+      '<div class="row"><div class="civname">' +
+      data[g].name +
+      '</div><div class="played">' +
+      data[g].played +
+      '</div><div class="won">' +
+      data[g].won +
+      '</div><div class="rate">' +
+      data[g].rate +
+      '%</div></div>';
+    statsTable.insertAdjacentHTML('beforeend', stat);
+  }
+}
+
+function convertData(data) {
+  let sortedData = [];
+
+  for (let g = 0; g < data.length; g++) {
+    sortedData.push({
+      name: data[g].string,
+      played: data[g].count,
+      won: data[g].won,
+      rate: Math.round((data[g].won / data[g].count) * 100),
+    });
+  }
+  return sortedData;
+}
+
 async function onPageLoad() {
   if (!queryString) {
     p1id = '247224';
@@ -83,32 +125,9 @@ async function onPageLoad() {
   } else {
     const data = await getSingleHistory(p1id);
     makeChart(data, p1id);
-    let sortedData = [];
-
-    for (let g = 0; g < data.length; g++) {
-      sortedData.push({
-        name: data[g].string,
-        played: data[g].count,
-        won: data[g].won,
-        rate: Math.round((data[g].won / data[g].count) * 100),
-      });
-    }
-    sortedData = sortedData.sort((a, b) => b.rate - a.rate);
-    const statsTable = document.getElementById('stats-table');
-    for (let g = 0; g < sortedData.length; g++) {
-      const stat =
-        '<div class="row"><div class="civname">' +
-        sortedData[g].name +
-        '</div><div class="played">' +
-        sortedData[g].played +
-        '</div><div class="won">' +
-        sortedData[g].won +
-        '</div><div class="rate">' +
-        sortedData[g].rate +
-        '%</div></div>';
-      statsTable.insertAdjacentHTML('beforeend', stat);
-    }
-
+    let sortedData = convertData(data);
+    sortedData = sortList(sortedData, 'rate');
+    renderHTML(sortedData);
     let gameCount = 0;
     for (let i = 0; i < data.length; i++) {
       gameCount += data[i].count;
@@ -118,4 +137,12 @@ async function onPageLoad() {
   const playerName = await getPlayerNames(p1id);
   document.getElementById('playername').insertAdjacentHTML('afterbegin', playerName + ': ');
 }
+
+async function sortTable(sortItem) {
+  const data = await getSingleHistory(p1id);
+  let convertedData = convertData(data);
+  let sortedData = sortList(convertedData, sortItem);
+  renderHTML(sortedData);
+}
+
 onPageLoad();
