@@ -101,7 +101,39 @@ async function calculateWinRate(data, p1id, p2id) {
   return finalData;
 }
 
-async function getGames(data, id) {
+function countGames(data, id) {
+  let countedGames = {};
+  const vs1Data = data.filter((games) => games.num_players == 2);
+  countedGames['vs1Count'] = 0;
+  countedGames['vs1Won'] = 0;
+  for (let i = 0; i < vs1Data.length; i++) {
+    for (let p = 0; p < vs1Data[i].players.length; p++) {
+      if (vs1Data[i].players[p]['profile_id'] == id) {
+        countedGames['vs1Count'] += 1;
+        if (vs1Data[i].players[p]['won'] == true) {
+          countedGames['vs1Won'] += 1;
+        }
+      }
+    }
+  }
+
+  const tgsData = data.filter((games) => games.num_players > 2);
+  countedGames['tgCount'] = 0;
+  countedGames['tgWon'] = 0;
+  for (let i = 0; i < tgsData.length; i++) {
+    for (let p = 0; p < tgsData[i].players.length; p++) {
+      if (tgsData[i].players[p]['profile_id'] == id) {
+        countedGames['tgCount'] += 1;
+        if (tgsData[i].players[p]['won'] == true) {
+          countedGames['tgWon'] += 1;
+        }
+      }
+    }
+  }
+  return countedGames;
+}
+
+async function countCivs(data, id) {
   let civData = await axios.get('https://aoe2.net/api/strings?game=aoe2de&language=en');
   const civNames = civData.data;
 
@@ -145,11 +177,19 @@ router.get('/:id/:count', async (req, res, next) => {
   res.json(data);
 });
 
+router.get('/lastgames/:id/:count', async (req, res, next) => {
+  const gameCount = req.params.count;
+  const id = req.params.id;
+  let data = await getAllGames(id, gameCount);
+  let countedData = countGames(data, id);
+  res.json(countedData);
+});
+
 router.get('/all/:id/:count', async (req, res, next) => {
   const gameCount = req.params.count;
   const id = req.params.id;
   let data = await getAllGames(id, gameCount);
-  getGames(data, id).then((response) => res.json(response));
+  countCivs(data, id).then((response) => res.json(response));
 });
 
 router.get('/vs1/:id/:count', async (req, res, next) => {
@@ -157,7 +197,7 @@ router.get('/vs1/:id/:count', async (req, res, next) => {
   const id = req.params.id;
   const data = await getAllGames(id, gameCount);
   const finalData = data.filter((games) => games.num_players == 2);
-  getGames(finalData, id).then((response) => res.json(response));
+  countCivs(finalData, id).then((response) => res.json(response));
 });
 
 router.get('/vs/:id/:opponent', (req, res, next) => {
