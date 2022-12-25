@@ -76,15 +76,14 @@ async function onPageLoad() {
     console.log('hello! error here');
     window.alert('Need to enter Player ID from aoe2.net');
   } else {
-    const data = await getPlayerHistory(p1id);
-    makeChart(data);
+    const { playerName, playedCivs } = await getPlayerHistory(p1id);
+    document.getElementById('playername').insertAdjacentHTML('afterbegin', playerName + ': ');
+    makeChart(playedCivs);
     let gameCount = 0;
-    for (let i = 0; i < data.length; i++) {
-      gameCount += data[i].count;
+    for (let i = 0; i < playedCivs.length; i++) {
+      gameCount += playedCivs[i].count;
     }
     document.getElementById('games').innerHTML = gameCount;
   }
-  const playerName = await getPlayerNames(p1id);
-  document.getElementById('playername').insertAdjacentHTML('afterbegin', playerName + ': ');
 }
 onPageLoad();

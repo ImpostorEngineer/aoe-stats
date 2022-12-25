@@ -26,19 +26,16 @@ function getMapName(data, mapId) {
   return mapName;
 }
 
-function getCivName(data, civID) {
-  let civName = '';
-  for (let c = 0; c < data.civ.length; c++) {
-    if (data.civ[c]['id'] == civID) {
-      civName = data.civ[c]['string'];
-    }
-  }
+async function getCivName(civID) {
+  const civNameData = await fetch('./js/civs.json').then((res) => res.json());
+  const civName = civNameData['civ'].filter((civ) => civ.id == civID)[0].string;
   return civName;
 }
 
 async function renderHTML(data, p1id) {
-  const map_url = 'https://aoe2.net/api/strings?game=aoe2de&language=en';
-  const mapData = await fetch(map_url, { mode: 'cors' }).then((response) => response.json());
+  const map_url = './api/strings';
+  const mapData = await fetch(map_url, { mode: 'same-origin' }).then((response) => response.json());
+
   const shortData = data;
   const civList = document.getElementById('civList');
   civList.innerHTML = '';
@@ -92,14 +89,9 @@ async function renderHTML(data, p1id) {
         }
       }
     }
-    for (let c = 0; c < mapData.civ.length; c++) {
-      if (mapData.civ[c].id == p1civ) {
-        p1civName = mapData.civ[c].string;
-      }
-      if (mapData.civ[c].id == p2civ) {
-        p2civName = mapData.civ[c].string;
-      }
-    }
+    p1civName = await getCivName(p1civ);
+    p2civName = await getCivName(p2civ);
+
     for (let m = 0; m < mapData.map_type.length; m++) {
       if (mapData.map_type[m].id == mapID) {
         mapName = mapData.map_type[m].string;
@@ -148,9 +140,8 @@ async function renderHTML(data, p1id) {
 }
 
 async function onPageLoad() {
-  let civData = await fetch('https://aoe2.net/api/strings?game=aoe2de&language=en').then((response) => response.json());
-  const civName = getCivName(civData, civID);
-
+  let civData = await fetch('./api/strings').then((response) => response.json());
+  const civName = await getCivName(civID);
   if (!queryString) {
     p1id = '247224';
   }

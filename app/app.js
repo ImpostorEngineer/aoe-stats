@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const axios = require('axios');
+const civNames = require('../public/js/civs.json')['civ'];
 
 function idTypeNumber(number) {
   idType = 'profile_id';
@@ -9,8 +10,7 @@ function idTypeNumber(number) {
 }
 
 async function getAllGames(ID, gameCount) {
-  const playerGamerID = idTypeNumber(ID);
-  const url = 'https://aoe2.net/api/player/matches?game=aoe2de&' + playerGamerID.gamerID + '&count=' + gameCount;
+  const url = 'https://aoe2.net/api/player/matches?game=aoe2de&profile_id' + ID + '&count=' + gameCount;
   let response = await axios.get(url);
   let data = response.data;
   return data;
@@ -18,10 +18,9 @@ async function getAllGames(ID, gameCount) {
 
 async function getOpponentGames(p1ID, p2ID, gameCount) {
   let data = await getAllGames(p1ID, gameCount);
-  const opponentGamerID = idTypeNumber(p2ID);
   const playedGamesList = data.filter((g) => {
     for (let p = 0; p < g.players.length; p++) {
-      if (g.players[p][opponentGamerID.idType] == p2ID && g.players.length == 2) {
+      if (g.players[p]['profile_id'] == p2ID && g.players.length == 2) {
         return true;
       }
     }
@@ -30,8 +29,7 @@ async function getOpponentGames(p1ID, p2ID, gameCount) {
 }
 
 async function getCurrentOpponentID(p1ID) {
-  const playerGamerID = idTypeNumber(p1ID);
-  const playerURL = 'https://aoe2.net/api/player/lastmatch?game=aoe2de&' + playerGamerID.gamerID;
+  const playerURL = 'https://aoe2.net/api/player/matches?game=aoe2de&count=1&profile_id=' + p1ID;
   let response = await axios.get(playerURL);
   let currentGame = response.data;
   let opponentID = {};
@@ -52,10 +50,7 @@ async function getPlayerNames(ID) {
 }
 
 async function getPlayerRating(ID) {
-  let idType = 'profile_id';
-
-  const profileURL =
-    'https://aoe2.net/api/player/ratinghistory?game=aoe2de&leaderboard_id=3&count=1&' + idType + '=' + ID;
+  const profileURL = `https://aoe2.net/api/player/ratinghistory?game=aoe2de&leaderboard_id=3&profile_id=${ID}&count=1`;
   let data = await axios.get(profileURL);
   let playerRating = 0;
   if (data.data[0] == undefined) {
@@ -101,95 +96,71 @@ async function calculateWinRate(data, p1id, p2id) {
   return finalData;
 }
 
-function countGames(data, id) {
-  let countedGames = {};
-  const vs1Data = data.filter((games) => games.num_players == 2);
-  countedGames['vs1Count'] = 0;
-  countedGames['vs1Won'] = 0;
-  for (let i = 0; i < vs1Data.length; i++) {
-    for (let p = 0; p < vs1Data[i].players.length; p++) {
-      if (vs1Data[i].players[p]['profile_id'] == id) {
-        countedGames['vs1Count'] += 1;
-        if (vs1Data[i].players[p]['won'] == true) {
-          countedGames['vs1Won'] += 1;
-        }
+async function getGames(data, id) {
+  const playedGamesList = data.map((game) => game.players.filter((player) => player['profile_id'] == id)[0]);
+  const playerName = playedGamesList[0].name;
+
+  const playedCivsObj = playedGamesList.reduce(function (obj, game) {
+    const civName = civNames.filter((civ) => civ.id == game.civ)[0].string;
+    if (!obj[civName]) {
+      if (game['won'] == true) {
+        obj[civName] = { id: game.civ, count: 1, won: 1, lost: 0 };
+      } else {
+        obj[civName] = { id: game.civ, count: 1, won: 0, lost: 1 };
+      }
+    } else {
+      if (game['won'] == true) {
+        obj[civName].count += 1;
+        obj[civName].won += 1;
+      } else {
+        obj[civName].count += 1;
+        obj[civName].lost += 1;
       }
     }
-  }
+    return obj;
+  }, {});
 
-  const tgsData = data.filter((games) => games.num_players > 2);
-  countedGames['tgCount'] = 0;
-  countedGames['tgWon'] = 0;
-  for (let i = 0; i < tgsData.length; i++) {
-    for (let p = 0; p < tgsData[i].players.length; p++) {
-      if (tgsData[i].players[p]['profile_id'] == id) {
-        countedGames['tgCount'] += 1;
-        if (tgsData[i].players[p]['won'] == true) {
-          countedGames['tgWon'] += 1;
-        }
-      }
-    }
-  }
-  return countedGames;
-}
-
-async function countCivs(data, id) {
-  let civData = await axios.get('https://aoe2.net/api/strings?game=aoe2de&language=en');
-  const civNames = civData.data;
-
-  let playedGames = [];
   let playedCivs = [];
-  let finalCivs = [];
-
-  for (let i = 0; i < data.length; i++) {
-    const playerList = data[i].players.filter((player) => player[idType] == id);
-    playedGames.push(playerList);
-    playedCivs.push(playerList[0].civ);
+  for (civ in playedCivsObj) {
+    let civObj = {
+      id: playedCivsObj[civ].id,
+      string: civ,
+      count: playedCivsObj[civ].count,
+      won: playedCivsObj[civ].won,
+      lost: playedCivsObj[civ].lost,
+    };
+    playedCivs.push(civObj);
   }
-  playedCivs = [...new Set(playedCivs)];
-  playedCivs.sort((a, b) => a - b);
-
-  for (let c = 0; c < civNames.civ.length; c++) {
-    for (let k = 0; k < playedCivs.length; k++)
-      if (civNames.civ[c].id == playedCivs[k] && playedCivs[k] != null) {
-        finalCivs.push({ ...civNames.civ[c], count: 0, won: 0 });
-      }
-  }
-
-  for (let t = 0; t < playedGames.length; t++) {
-    for (let p = 0; p < finalCivs.length; p++) {
-      if (playedGames[t][0].civ == finalCivs[p].id) {
-        finalCivs[p].count += 1;
-        if (playedGames[t][0].won == true) {
-          finalCivs[p].won += 1;
-        }
-      }
-    }
-  }
-  finalCivs.sort((a, b) => b.count - a.count);
-  return finalCivs;
+  playedCivs.sort((a, b) => b.count - a.count);
+  return { playedCivs, playerName };
 }
 
-router.get('/:id/:count', async (req, res, next) => {
+router.get('/strings', async (req, res, next) => {
+  const url = 'https://aoe2.net/api/strings?game=aoe2de&language=en';
+  const response = await axios.get(url);
+  const data = response.data;
+  res.json(data);
+});
+
+router.get('/rating/:id', async (req, res, next) => {
+  const id = req.params.id;
+  let data = await getPlayerRating(id);
+  res.json(data);
+});
+
+router.get('/count/:id/:count', async (req, res, next) => {
   const gameCount = req.params.count;
   const id = req.params.id;
   let data = await getAllGames(id, gameCount);
   res.json(data);
 });
 
-router.get('/lastgames/:id/:count', async (req, res, next) => {
-  const gameCount = req.params.count;
-  const id = req.params.id;
-  let data = await getAllGames(id, gameCount);
-  let countedData = countGames(data, id);
-  res.json(countedData);
-});
-
 router.get('/all/:id/:count', async (req, res, next) => {
   const gameCount = req.params.count;
   const id = req.params.id;
-  let data = await getAllGames(id, gameCount);
-  countCivs(data, id).then((response) => res.json(response));
+  const data = await getAllGames(id, gameCount);
+  const { playedCivs, playerName } = await getGames(data, id);
+  res.json({ playerName, playedCivs });
 });
 
 router.get('/vs1/:id/:count', async (req, res, next) => {
@@ -197,7 +168,8 @@ router.get('/vs1/:id/:count', async (req, res, next) => {
   const id = req.params.id;
   const data = await getAllGames(id, gameCount);
   const finalData = data.filter((games) => games.num_players == 2);
-  countCivs(finalData, id).then((response) => res.json(response));
+  const { playedCivs, playerName } = await getGames(finalData, id);
+  res.json({ playerName, playedCivs });
 });
 
 router.get('/vs/:id/:opponent', (req, res, next) => {

@@ -1,29 +1,31 @@
 async function getPlayerNames(ID) {
-  let idType = 'profile_id';
-
-  const profileURL = 'https://aoe2.net/api/player/lastmatch?game=aoe2de&' + idType + '=' + ID;
-  let data = await fetch(profileURL, { mode: 'cors' }).then((response) => response.json());
-  let playerName = data.name;
+  const profileURL = `./api/all/${ID}/1`;
+  const { playerName, data } = await fetch(profileURL, {
+    mode: 'same-origin',
+  }).then((response) => response.json());
   return playerName;
 }
 
 async function getPlayerRating(ID) {
-  let idType = 'profile_id';
-
-  const profileURL =
-    'https://aoe2.net/api/player/ratinghistory?game=aoe2de&leaderboard_id=3&count=1&' + idType + '=' + ID;
-  let data = await fetch(profileURL, { mode: 'cors' }).then((response) => response.json());
+  const profileURL = `./api/rating/${ID}`;
+  let data = await fetch(profileURL, { mode: 'same-origin' }).then((response) => response.json());
   let playerRating = 0;
-  if (data[0] == undefined) {
+  if (!data) {
     playerRating = 0;
   } else {
-    playerRating = data[0].rating;
+    playerRating = data;
   }
   return playerRating;
 }
 
+async function getCivName(civID) {
+  const civNameData = await fetch('./js/civs.json').then((res) => res.json());
+  const civName = civNameData['civ'].filter((civ) => civ.id == civID)[0].string;
+  return civName;
+}
+
 async function renderHTML(playerData, idType, data, p1id, p2id) {
-  const map_url = 'https://aoe2.net/api/strings?game=aoe2de&language=en';
+  const map_url = './api/strings';
   const mapData = await fetch(map_url, { mode: 'cors' }).then((response) => response.json());
   const shortData = data.slice(0, 5);
 
@@ -97,14 +99,10 @@ async function renderHTML(playerData, idType, data, p1id, p2id) {
         }
       }
     }
-    for (let c = 0; c < mapData.civ.length; c++) {
-      if (mapData.civ[c].id == p1civ) {
-        p1civName = mapData.civ[c].string;
-      }
-      if (mapData.civ[c].id == p2civ) {
-        p2civName = mapData.civ[c].string;
-      }
-    }
+
+    p1civName = await getCivName(p1civ);
+    p2civName = await getCivName(p2civ);
+
     for (let m = 0; m < mapData.map_type.length; m++) {
       if (mapData.map_type[m].id == mapID) {
         mapName = mapData.map_type[m].string;

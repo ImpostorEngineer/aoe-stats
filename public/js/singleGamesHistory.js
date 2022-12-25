@@ -5,13 +5,13 @@ let games = urlParams.get('games');
 
 function convertData(data) {
   let sortedData = [];
-
   for (let g = 0; g < data.length; g++) {
     sortedData.push({
       id: data[g].id,
       name: data[g].string,
       played: data[g].count,
       won: data[g].won,
+      lost: data[g].lost,
       rate: Math.round((data[g].won / data[g].count) * 100),
     });
   }
@@ -23,9 +23,9 @@ async function getSingleHistory(p1id) {
     games = 1000;
   }
   const dataURL = './api/vs1/' + p1id + '/' + games;
-  const playerData = await fetch(dataURL, { mode: 'same-origin' }).then((response) => response.json());
-  const data = convertData(playerData);
-  return data;
+  const { playerName, playedCivs } = await fetch(dataURL, { mode: 'same-origin' }).then((response) => response.json());
+  const data = convertData(playedCivs);
+  return { playerName, data };
 }
 
 async function makeChart(data, p1id) {
@@ -126,7 +126,8 @@ async function onPageLoad() {
     console.log('hello! error here');
     window.alert('Need to enter Player ID from aoe2.net');
   } else {
-    const data = await getSingleHistory(p1id);
+    const { playerName, data } = await getSingleHistory(p1id);
+    document.getElementById('playername').insertAdjacentHTML('afterbegin', playerName + ': ');
     const sortedData = sortList(data, 'played');
     makeChart(sortedData, p1id);
     renderHTML(sortedData);
@@ -136,12 +137,10 @@ async function onPageLoad() {
     }
     document.getElementById('games').innerHTML = ' ' + gameCount;
   }
-  const playerName = await getPlayerNames(p1id);
-  document.getElementById('playername').insertAdjacentHTML('afterbegin', playerName + ': ');
 }
 
 async function sortTable(sortItem) {
-  const data = await getSingleHistory(p1id);
+  const { playerName, data } = await getSingleHistory(p1id);
   let sortedData = sortList(data, sortItem);
   makeChart(sortedData, p1id);
   renderHTML(sortedData);

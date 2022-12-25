@@ -4,7 +4,8 @@
   "description": "Using the data from aoe2.net, this page displays the rank and civilizations of current players.",
   "main": "server.js",
   "scripts": {
-    "start": "node ./server.js"
+    "start": "node ./server.js",
+    "dev": "nodemon ./server.js"
   },
   "repository": {
     "type": "git",

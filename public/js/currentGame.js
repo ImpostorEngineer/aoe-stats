@@ -14,8 +14,14 @@ function idTypeNumber(number) {
 
 async function getCurrentOpponentID(p1ID) {
   const playerGamerID = idTypeNumber(p1ID);
-  const playerURL = 'https://aoe2.net/api/player/lastmatch?game=aoe2de&' + playerGamerID.gamerID;
-  let currentGame = await fetch(playerURL, { mode: 'cors' }).then((response) => response.json());
+  let headers = new Headers({
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+    'User-Agent': 'aoestats.vercel.app',
+  });
+  const playerURL = 'https://aoe2.net/api/player/matches?game=aoe2de&count=1&' + playerGamerID.gamerID;
+  let currentGame = await fetch(playerURL, { mode: 'no-cors', headers: headers }); //.then((response) => response.json())
+  console.log(currentGame);
   let opponentID = {};
   for (let p = 0; p < currentGame.last_match.players.length; p++) {
     if (currentGame.last_match.players[p][idType] != p1ID) {
