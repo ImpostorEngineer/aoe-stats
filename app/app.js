@@ -10,7 +10,7 @@ function idTypeNumber(number) {
 }
 
 async function getAllGames(ID, gameCount) {
-  const url = 'https://aoe2.net/api/player/matches?game=aoe2de&profile_id' + ID + '&count=' + gameCount;
+  const url = 'https://aoe2.net/api/player/matches?game=aoe2de&profile_id=' + ID + '&count=' + gameCount;
   let response = await axios.get(url);
   let data = response.data;
   return data;
